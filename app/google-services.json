@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "678679379733",
+    "firebase_url": "https://labapp-5e407.firebaseio.com",
+    "project_id": "labapp-5e407",
+    "storage_bucket": "labapp-5e407.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678679379733:android:6d749bcec841afe40e731c",
+        "android_client_info": {
+          "package_name": "com.example.labapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678679379733-rnjcc912j8cl0nd5gf4vjp0rvco4jfpc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.labapp",
+            "certificate_hash": "0ba0c8f793cb3ac88a250b58b6040b61df111578"
+          }
+        },
+        {
+          "client_id": "678679379733-3tjr9v9ctooal94vqjekf22jl01t01do.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGB3WzT2gwbmVYShPsdA1hr-hak8A-FPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678679379733-3tjr9v9ctooal94vqjekf22jl01t01do.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
