@@ -158,6 +158,9 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
 
                             progressDialog.hide();
                             Toast.makeText(AdminRegister.this, "Registered Successfully",Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(AdminRegister.this, AdminHome.class);
+                            startActivity(intent);
                         }
                         else {
                             String e = ((FirebaseAuthException) task.getException()).getErrorCode();

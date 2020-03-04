@@ -20,63 +20,43 @@
         app:srcCompat="@drawable/blast" />
 
     <EditText
+        android:id="@+id/login_student_email"
+        android:layout_width="358dp"
+        android:layout_height="77dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textPersonName"
+        android:paddingLeft="30dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/colorBlack"
+        android:textColorHint="@color/colorMintGreen"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.406" />
+
+    <EditText
         android:id="@+id/login_student_password"
         android:layout_width="358dp"
         android:layout_height="77dp"
         android:background="@drawable/input_box"
         android:ems="10"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:paddingLeft="30dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorMintGreen"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
-
-    <EditText
-        android:id="@+id/editText_login_student_number"
-        android:layout_width="358dp"
-        android:layout_height="77dp"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:hint="@string/string_student_number"
-        android:inputType="textPersonName"
-        android:paddingLeft="30dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/colorBlack"
-        android:textColorHint="@color/colorMintGreen"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.482" />
-
-    <EditText
-        android:id="@+id/editText_"
-        android:layout_width="358dp"
-        android:layout_height="77dp"
-        android:background="@drawable/input_box"
-        android:ems="10"
-        android:textSize="20sp"
         android:hint="Password"
         android:inputType="textPassword"
         android:paddingLeft="30dp"
         android:paddingBottom="10dp"
         android:textColorHint="@color/colorMintGreen"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.584" />
+        app:layout_constraintVertical_bias="0.51" />
 
     <Button
         android:id="@+id/button_login"
