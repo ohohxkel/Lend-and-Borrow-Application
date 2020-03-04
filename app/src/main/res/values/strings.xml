@@ -5,4 +5,25 @@
     <string name="string_student_email">Email</string>
     <string name="string_student_year_and_section">Year and Section </string>
     <string name="string_student_password">Password </string>
+
+    <string-array name="idCode_extension">
+        <item>Extn-01</item>
+        <item>Extn-02</item>
+        <item>Extn-03</item>
+        <item>Extn-04</item>
+    </string-array>
+
+    <string-array name="idCode_projector">
+        <item>Prjr-01</item>
+        <item>Prjr-02</item>
+        <item>Prjr-03</item>
+        <item>Prjr-04</item>
+    </string-array>
+
+    <string-array name="idCode_laptop">
+        <item>Lptp-01</item>
+        <item>Lptp-02</item>
+        <item>Lptp-03</item>
+        <item>Lptp-04</item>
+    </string-array>
 </resources>
