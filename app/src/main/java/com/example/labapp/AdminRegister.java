@@ -91,7 +91,7 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
     private void registerUser() {
         final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-        final String name = editTextFirstName.getText().toString().trim() +", "+ editTextLastName.getText().toString().trim();
+        final String name = editTextLastName.getText().toString().trim() +", "+ editTextFirstName.getText().toString().trim();
         final String yearAndSec = editTextYearAndSection.getText().toString().trim();
         final String studentNumber = editTextStudentNumber.getText().toString().trim();
 
