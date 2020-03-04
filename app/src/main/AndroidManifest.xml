@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.labapp">
-<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StudentHome"></activity>
+        <activity android:name=".LogoutConfirmation"></activity>
+        <activity android:name=".AdminHistory" />
+        <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />
         <activity android:name=".AdminHome" />
         <activity android:name=".AdminRegister" />
