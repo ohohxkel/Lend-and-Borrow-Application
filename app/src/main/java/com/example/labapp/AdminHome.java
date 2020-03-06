@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdminHome extends AppCompatActivity {
-    Button button_admin_register;
+    Button button_admin_register, button_admin_generate, button_logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +21,22 @@ public class AdminHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminHome.this, AdminRegister.class);
+                startActivity(intent);
+            }
+        });
+        button_admin_generate= findViewById(R.id.button_admin_generate);
+        button_admin_generate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, AdminGenerate.class);
+                startActivity(intent);
+            }
+        });
+        button_logout= findViewById(R.id.button_logout);
+        button_logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, LogoutConfirmation.class);
                 startActivity(intent);
             }
         });
