@@ -16,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
 
 public class AdminInventory extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
@@ -23,6 +27,12 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
     Spinner values;
     String item_values,item_values1, item_values2;
     EditText item,item2,item3,qrlist;
+
+    ArrayList<String> itemsAdd;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference itemsRef = db.collection("Inventory");
+    CollectionReference usersRef = db.collection("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,10 +84,21 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
             @Override
             public void onClick(View v) {
 
-                ArrayList<String> itemsAdd = new ArrayList<String>();
-                itemsAdd.add(item_values+item_values1+item_values2);
+                // ArrayList<String> itemsAdd = new ArrayList<String>();
+                itemsAdd = new ArrayList<>();
 
+                itemsAdd.add(0, item_values);
+                itemsAdd.add(1,item_values1);
+                itemsAdd.add(2, item_values2);
                 qrlist.setText(itemsAdd.toString());
+
+                String user = "2018-00560-MN-0";
+                for (int i = 0; i < itemsAdd.size(); i++) {
+
+                    itemsRef.document("Items").update("tags", FieldValue.arrayRemove(itemsAdd.get(i)));
+                    usersRef.document(user).update("Borrow", FieldValue.arrayUnion(itemsAdd.get(i)));
+                }
+
 
             }
         });
