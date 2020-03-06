@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdminHome extends AppCompatActivity {
-    Button button_admin_register, button_admin_generate, button_logout;
+    Button button_admin_register, button_admin_generate, button_admin_history, button_logout;
 
 
     @Override
@@ -29,6 +29,14 @@ public class AdminHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminHome.this, AdminGenerate.class);
+                startActivity(intent);
+            }
+        });
+        button_admin_history= findViewById(R.id.button_admin_history);
+        button_admin_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, AdminHistory.class);
                 startActivity(intent);
             }
         });
