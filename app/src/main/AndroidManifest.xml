@@ -18,13 +18,22 @@
         <activity android:name=".AdminHome" />
         <activity android:name=".AdminRegister" />
         <activity android:name=".AdminEnterCode" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action." />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>

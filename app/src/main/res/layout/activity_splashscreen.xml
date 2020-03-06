@@ -5,12 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorWhite">
+    android:background="@drawable/logout_background">
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="145dp"
-        android:layout_height="275dp"
+        android:layout_width="163dp"
+        android:layout_height="311dp"
         android:layout_centerInParent="true"
         android:src="@drawable/lab_logo"
         app:layout_constraintBottom_toBottomOf="parent"
