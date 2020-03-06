@@ -68,7 +68,7 @@ public class StudentHome extends AppCompatActivity {
 
 
                                 textViewName.setText(name);
-                                textViewYearAndSection.setText(yearAndSection);
+                                textViewYearAndSection.setText("BSCOE " + yearAndSection);
                                 textViewStudentNumber.setText(studentNumberString);
 
                              }
