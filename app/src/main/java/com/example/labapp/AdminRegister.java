@@ -92,7 +92,7 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
         final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         final String name = editTextLastName.getText().toString().trim() +", "+ editTextFirstName.getText().toString().trim();
-        final String yearAndSec = editTextYearAndSection.getText().toString().trim();
+        final String yearAndSection = editTextYearAndSection.getText().toString().trim();
         final String studentNumber = editTextStudentNumber.getText().toString().trim();
 
         if(TextUtils.isEmpty(email)) {
@@ -120,7 +120,7 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        if(TextUtils.isEmpty(yearAndSec)) {
+        if(TextUtils.isEmpty(yearAndSection)) {
             editTextYearAndSection.setError("Year and Section required");
             editTextYearAndSection.requestFocus();
             return;
@@ -141,11 +141,11 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
                             // User user = new User(name, email, studentNumber, yearAndSec);
                             userID = mAuth.getCurrentUser().getUid();
                             Map <String, Object> user = new HashMap<>();
-                            user.put("User ID", userID);
-                            user.put("Name", name);
-                            user.put("Email", email);
-                            user.put("Student Number", studentNumber);
-                            user.put("Year and Section", yearAndSec);
+                            user.put("userID", userID);
+                            user.put("name", name);
+                            user.put("email", email);
+                            user.put("studentNumber", studentNumber);
+                            user.put("yearAndSection", yearAndSection);
                             DocumentReference documentReference = fStore.collection("users").document(studentNumber);
 
                               documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {

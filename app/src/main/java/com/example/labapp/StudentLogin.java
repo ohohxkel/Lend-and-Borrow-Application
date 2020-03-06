@@ -73,7 +73,7 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             progressDialog.hide();
-                            Toast.makeText(StudentLogin.this, "Registered Successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StudentLogin.this, "Login Successfully" , Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(StudentLogin.this, StudentHome.class);
                             startActivity(intent);
 
