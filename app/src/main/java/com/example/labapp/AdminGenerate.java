@@ -8,9 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+/*
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
+
+ */
 
 public class AdminGenerate extends AppCompatActivity {
     EditText qr_value;
@@ -28,10 +36,22 @@ public class AdminGenerate extends AppCompatActivity {
         qr_image = findViewById(R.id.qrcode_place_holder);
 
         button_generate.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                String data = qr_value.getText().toString();
-                QRGEncoder qrgEncoder = new QRGEncoder(data, null, QRGContents.Type.TEXT,10);
+
+                String text = qr_value.getText().toString();
+                MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+                try {
+                    BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 700, 700);
+                    BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                    Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                    qr_image.setImageBitmap(bitmap);
+                } catch (WriterException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
     }
