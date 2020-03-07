@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,9 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
     CollectionReference users = db.collection("users");
+
+    String userID = mAuth.getCurrentUser().getUid().toString();
+    Query userss = users.whereEqualTo("userID", userID);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
