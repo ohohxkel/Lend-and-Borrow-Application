@@ -32,7 +32,7 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
-    CollectionReference usersRef = db.collection("users");
+    CollectionReference users = db.collection("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
