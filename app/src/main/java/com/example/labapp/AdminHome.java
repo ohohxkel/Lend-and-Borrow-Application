@@ -49,4 +49,8 @@ public class AdminHome extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed(){
+
+    }
 }
