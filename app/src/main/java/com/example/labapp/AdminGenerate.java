@@ -2,6 +2,7 @@ package com.example.labapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -52,6 +53,14 @@ public class AdminGenerate extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
+            }
+        });
+        button_scan= findViewById(R.id.button_scan);
+        button_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminGenerate.this, AdminScanner.class);
+                startActivity(intent);
             }
         });
     }

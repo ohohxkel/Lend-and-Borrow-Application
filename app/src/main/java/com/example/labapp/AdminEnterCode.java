@@ -22,8 +22,6 @@ public class AdminEnterCode extends AppCompatActivity {
     Button button0;
     Button button_delete;
 
-
-
     EditText editText_code;
 
 
@@ -51,7 +49,6 @@ public class AdminEnterCode extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editText_code.setText(editText_code.getText().insert(editText_code.getText().length(),"1"));
-
 
             }
 

@@ -6,7 +6,7 @@
     <string name="string_student_year_and_section">Year and Section </string>
     <string name="string_student_password">Password </string>
 
-    <string-array name="item_list">
+    <string-array name="itemsAdd">
         <item>extn-01</item>
         <item>prjr-02</item>
         <item>lptp-03</item>
