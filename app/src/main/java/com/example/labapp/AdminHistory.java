@@ -20,7 +20,7 @@ public class AdminHistory extends AppCompatActivity{
         setContentView(R.layout.activity_admin_history);
 
         Spinner spinner = findViewById(R.id.spinner_slot1);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.item_list, R.layout.color_spinner_layout);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.itemsAdd, R.layout.color_spinner_layout);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         spinner.setAdapter(adapter);
 

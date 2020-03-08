@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:text="Items"
+    android:fontFamily="@font/segoeui"
     android:textColor="@color/colorWhite"
     android:textSize="15sp"
     >
