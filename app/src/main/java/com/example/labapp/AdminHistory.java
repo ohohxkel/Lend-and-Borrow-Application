@@ -75,7 +75,7 @@ public class AdminHistory extends AppCompatActivity{
         CollectionReference users = fStore.collection("users");
         fStore.collectionGroup("Borrow")
                 .whereEqualTo("returned", "false")
-                .orderBy("borrowedDate", Direction.ASCENDING)
+                //.orderBy("borrowedDate", Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
