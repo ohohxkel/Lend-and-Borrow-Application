@@ -73,7 +73,7 @@ public class AdminHistory extends AppCompatActivity{
 
     private void loadTransactions(){
         CollectionReference users = fStore.collection("users");
-        fStore.collectionGroup("borrow")
+        fStore.collectionGroup("Borrow")
                 .whereEqualTo("returned", "false")
                 .orderBy("borrowedDate", Direction.ASCENDING)
                 .get()
@@ -83,7 +83,7 @@ public class AdminHistory extends AppCompatActivity{
                             if(task.isSuccessful()){
                                 Log.d(TAG, task.getResult().toString());
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                  //Log.d(TAG, document.getId() + " => " + document.getData());
+                                  Log.d(TAG, document.getId() + " => " + document.getData());
 
                                   UserBorrow userBorrow = document.toObject(UserBorrow.class);
                                   mUserBorrow.add(userBorrow);
