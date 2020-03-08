@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 public class MainActivity extends AppCompatActivity {
 
     Button button_admin;
     Button button_student;
+    Button button_hidden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +36,25 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+        button_hidden = findViewById(R.id.button_hidden);
+        button_hidden.setOnClickListener(new View.OnClickListener() {
+            int i = 0;
+
+            @Override
+            public void onClick(View v) {
+                i++;
+                if (i == 5) {
+                    i = 0;
+                    button_admin.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 }
+
+
+
+

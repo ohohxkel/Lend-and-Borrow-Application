@@ -91,6 +91,12 @@ public class StudentHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public void onBackPressed(){
+
     }
 
 

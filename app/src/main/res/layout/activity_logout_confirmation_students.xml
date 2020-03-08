@@ -4,17 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LogoutConfirmationStudents">
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="415dp"
-        android:layout_height="734dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logout_background" />
+    tools:context=".LogoutConfirmationStudents"
+    android:background="@drawable/logout_background">
 
     <ImageView
         android:id="@+id/imageView5"
@@ -22,9 +13,10 @@
         android:layout_height="580dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.69"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.701"
         app:srcCompat="@drawable/logout_rectangle" />
 
     <ImageView
