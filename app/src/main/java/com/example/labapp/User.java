@@ -9,21 +9,6 @@ public class User {
 
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
 
     public User(String email, String name, String studentNumber, String userID, String yearAndSection) {
         this.name = name;
@@ -55,6 +40,23 @@ public class User {
     public void setYearAndSection(String yearAndSection) {
         this.yearAndSection = yearAndSection;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
 
 
 
