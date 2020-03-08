@@ -16,7 +16,7 @@ public class UserBorrow {
 
 
 
-    public UserBorrow(boolean returned, Timestamp borrowedDate, List<String> items) {
+    public UserBorrow(Timestamp borrowedDate, boolean returned, List<String> items) {
         this.returned = returned;
         this.borrowedDate = borrowedDate;
         this.items = items;

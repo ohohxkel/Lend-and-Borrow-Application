@@ -47,10 +47,10 @@ public class AdminHistory extends AppCompatActivity{
 
         fStore = FirebaseFirestore.getInstance();
         textViewTransactionNumber = (TextView)  findViewById(R.id.textViewTransactionNumber);
-        textViewReturned = (TextView) findViewById(R.id.textViewReturned);
+       // textViewReturned = (TextView) findViewById(R.id.textViewReturned);
         textViewDate = findViewById(R.id.textViewDate);
 
-        textViewReturned.setText("");
+//        textViewReturned.setText("");
         textViewDate.setText("");
 
         Spinner spinner = findViewById(R.id.spinner_slot1);
@@ -81,12 +81,13 @@ public class AdminHistory extends AppCompatActivity{
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
-                                Log.d(TAG, task.getResult().toString());
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                   Log.d(TAG, document.getId() + " => " + document.getData());
 
                                   UserBorrow userBorrow = document.toObject(UserBorrow.class);
                                   mUserBorrow.add(userBorrow);
+
+
 
 
                                   Timestamp borrowedDate = userBorrow.getBorrowedDate();
@@ -98,11 +99,12 @@ public class AdminHistory extends AppCompatActivity{
 
 
 
-                                  textViewReturned.setText(returnedString);
+                             //     textViewReturned.setText(returnedString);
                                   textViewDate.setText(borrowedDateString);
 
 
                                }
+
                             } else {
                                 Log.w(TAG, "Error getting documents.", task.getException());
                             }
