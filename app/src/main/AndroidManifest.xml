@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.labapp">
+    package="com.example.labapp" >
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -10,21 +13,34 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".LogoutConfirmation"></activity>
+        android:theme="@style/AppTheme" >
+        <activity android:name=".StudentScanner" >
+        </activity>
+        <activity android:name=".AdminScanner" />
+        <activity android:name=".AdminGenerate" />
+        <activity android:name=".LogoutConfirmationStudents" />
+        <activity android:name=".LogoutConfirmation" />
         <activity android:name=".AdminHistory" />
         <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />
         <activity android:name=".AdminHome" />
         <activity android:name=".AdminRegister" />
         <activity android:name=".AdminEnterCode" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashScreen"
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action." />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

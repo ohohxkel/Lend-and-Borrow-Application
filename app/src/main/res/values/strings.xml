@@ -25,5 +25,11 @@
         <item>Lptp-02</item>
         <item>Lptp-03</item>
         <item>Lptp-04</item>
+
+    <string-array name="itemsAdd">
+        <item>extn-01</item>
+        <item>prjr-02</item>
+        <item>lptp-03</item>
+
     </string-array>
 </resources>

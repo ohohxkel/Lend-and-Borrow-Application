@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminGenerate"
+    android:background="@color/colorWhite">
+
+
+    <Button
+        android:id="@+id/button_scan"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_admin"
+        android:cursorVisible="true"
+        android:fontFamily="@font/seguisb"
+        android:paddingBottom="5sp"
+        android:text="Scan"
+        android:textColor="@color/colorWhite"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_generate"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <Button
+        android:id="@+id/button_generate"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_admin"
+        android:cursorVisible="true"
+        android:fontFamily="@font/seguisb"
+        android:paddingBottom="5sp"
+        android:text="GENERATE"
+        android:textColor="@color/colorWhite"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/qrcode_place_holder"
+        app:layout_constraintVertical_bias="0.36" />
+
+    <ImageView
+        android:id="@+id/qrcode_place_holder"
+        android:layout_width="302dp"
+        android:layout_height="311dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.276"
+        app:srcCompat="@drawable/qrcode_place_holder" />
+
+    <EditText
+        android:id="@+id/qr_Input"
+        android:layout_width="219dp"
+        android:layout_height="48dp"
+        android:ems="15"
+        android:inputType="textPersonName"
+        android:text="Item"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/button_generate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.94" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
