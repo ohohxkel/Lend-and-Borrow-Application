@@ -4,12 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,8 +39,10 @@ public class AdminHistory extends AppCompatActivity{
 
     private FirebaseFirestore fStore;
     private TextView textViewTransactionNumber, textViewReturned, textViewDate;
+    private CheckBox checkBoxReturned;
     private ArrayList<UserBorrow> mUserBorrow = new ArrayList<>();
     public static final String TAG = "AdminHistory";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,10 @@ public class AdminHistory extends AppCompatActivity{
 
         fStore = FirebaseFirestore.getInstance();
         textViewTransactionNumber = (TextView)  findViewById(R.id.textViewTransactionNumber);
-       // textViewReturned = (TextView) findViewById(R.id.textViewReturned);
         textViewDate = findViewById(R.id.textViewDate);
-
-//        textViewReturned.setText("");
+        checkBoxReturned = findViewById(R.id.check_returned);
         textViewDate.setText("");
+        textViewTransactionNumber.setText("");
 
         Spinner spinner = findViewById(R.id.spinner_slot1);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.itemsAdd, R.layout.color_spinner_layout);
@@ -72,22 +75,29 @@ public class AdminHistory extends AppCompatActivity{
     }
 
     private void loadTransactions(){
-        CollectionReference users = fStore.collection("users");
         fStore.collectionGroup("Borrow")
-                .whereEqualTo("returned", "false")
+                .whereArrayContains("items", "extn-01")
                 //.orderBy("borrowedDate", Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                  Log.d(TAG, document.getId() + " => " + document.getData());
 
-                                  UserBorrow userBorrow = document.toObject(UserBorrow.class);
+
+                                if (task.getResult() == null){ Log.d(TAG, "NULL QUERY");}
+                                if (task.getResult() != null){ Log.d(TAG, "QUERY HAS SOMETHING     " + task.getResult().size());}
+
+                                for (QueryDocumentSnapshot documents : task.getResult()) {
+                                  Log.d(TAG, documents.getId() + " => " + documents.getData());
+
+                                  UserBorrow userBorrow = documents.toObject(UserBorrow.class);
                                   mUserBorrow.add(userBorrow);
 
+                                  if(userBorrow != null) { Log.d(TAG, "userBorrow has something!");}
+                                  if(userBorrow == null) { Log.d(TAG, "userBorrow has something!");}
 
+                                  String docID = documents.getId();
 
 
                                   Timestamp borrowedDate = userBorrow.getBorrowedDate();
@@ -95,14 +105,9 @@ public class AdminHistory extends AppCompatActivity{
                                     String borrowedDateString = bDate.toString();
 
                                   boolean returned = userBorrow.isReturned();
-                                    String returnedString = Boolean.toString(returned);
-
-
-
-                             //     textViewReturned.setText(returnedString);
                                   textViewDate.setText(borrowedDateString);
-
-
+                                  textViewTransactionNumber.setText(docID);
+                                  checkBoxReturned.setChecked(returned);
                                }
 
                             } else {
