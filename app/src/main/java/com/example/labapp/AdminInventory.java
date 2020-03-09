@@ -24,11 +24,11 @@ import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
 
-public class AdminInventory extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class AdminInventory extends AppCompatActivity{
     Button button_back, button_submit;
     Spinner values;
-    String item_values,item_values1, item_values2;
-    String currentUser;
+    String item_values1, item_values2,item_values3, item_values4,item_values5, item_values6,item_values7;
+    String currentUserID;
     EditText item,item2,item3,qrlist;
 
     ArrayList<String> itemsAdd;
@@ -36,46 +36,20 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
     CollectionReference usersRef = db.collection("users");
-    //mAuth = FirebaseAuth.getInstance();
 
-    //String userID = mAuth.getCurrentUser().getUid().toString();
-    //Query userss = users.whereEqualTo("userID", userID);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_inventory);
-        item = findViewById(R.id.item);
-        item2 = findViewById(R.id.item2);
-        item3 = findViewById(R.id.item3);
+
+
         button_submit = findViewById(R.id.button_submit);
         qrlist = findViewById(R.id.qrlist);
 
+        StudentScanner getData = new StudentScanner();
 
-        Spinner mySpinner = (Spinner) findViewById(R.id.spinner_extension);
-
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AdminInventory.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.idCode_extension));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner.setAdapter(myAdapter);
-        mySpinner.setOnItemSelectedListener(onItemSelectedListener0);
-
-        Spinner mySpinner1 = (Spinner) findViewById(R.id.spinner_projector);
-
-        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(AdminInventory.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.idCode_projector));
-        myAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner1.setAdapter(myAdapter1);
-        mySpinner1.setOnItemSelectedListener(onItemSelectedListener1);
-
-        Spinner mySpinner2 = (Spinner) findViewById(R.id.spinner_laptop);
-
-        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(AdminInventory.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.idCode_laptop));
-        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mySpinner2.setAdapter(myAdapter2);
-        mySpinner2.setOnItemSelectedListener(onItemSelectedListener2);
-
+        getData.itemNames();
 
 
         button_back = findViewById(R.id.button_back);
@@ -87,23 +61,34 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
+        borrowItems();
+
+
+    }
+
+
+    public void borrowItems(){
         button_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // ArrayList<String> itemsAdd = new ArrayList<String>();
                 itemsAdd = new ArrayList<>();
 
-                itemsAdd.add(0, item_values);
-                itemsAdd.add(1,item_values1);
-                itemsAdd.add(2, item_values2);
+
+                itemsAdd.add(0, item_values1);
+                itemsAdd.add(1, item_values2);
+                itemsAdd.add(2, item_values3);
+                itemsAdd.add(3, item_values4);
+                itemsAdd.add(4, item_values4);
+
+
                 qrlist.setText(itemsAdd.toString());
 
-                
+                //get the items from array, add and remove it from certain documents in firebase
                 for (int i = 0; i < itemsAdd.size(); i++) {
 
                     itemsRef.document("Items").update("tags", FieldValue.arrayRemove(itemsAdd.get(i)));
-                    usersRef.document(currentUser).update("Borrow", FieldValue.arrayUnion(itemsAdd.get(i)));
+                    usersRef.document(currentUserID).update("Borrow", FieldValue.arrayUnion(itemsAdd.get(i)));
                 }
 
 
@@ -111,54 +96,14 @@ public class AdminInventory extends AppCompatActivity implements AdapterView.OnI
         });
     }
 
+    public void returnItems(){
 
-    OnItemSelectedListener onItemSelectedListener0 = new OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            item_values = parent.getItemAtPosition(position).toString();
-            item.setText(item_values);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-
-    OnItemSelectedListener onItemSelectedListener1 = new OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            item_values1 = parent.getItemAtPosition(position).toString();
-            item2.setText(item_values1);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
-
-    OnItemSelectedListener onItemSelectedListener2 = new OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            item_values2 = parent.getItemAtPosition(position).toString();
-            item3.setText(item_values2);
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
+        itemsReturn = new ArrayList<>();
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
 
-    }
+
 }

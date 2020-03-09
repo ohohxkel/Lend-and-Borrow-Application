@@ -23,5 +23,16 @@ public class AdminHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        AdminInventory toBorrow = new AdminInventory();
+
+        toBorrow.borrowItems();
+
+
+
+
+
+
+
     }
 }
