@@ -47,13 +47,13 @@
         android:background="@drawable/button_admin"
         android:fontFamily="@font/seguisb"
         android:paddingBottom="5sp"
-        android:text="STUDENT"
+        android:text="LOGIN"
         android:textColor="@color/colorWhite"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lend_and_borrow"
-        app:layout_constraintVertical_bias="0.105" />
+        app:layout_constraintVertical_bias="0.096" />
 
     <Button
         android:id="@+id/button_hidden"
