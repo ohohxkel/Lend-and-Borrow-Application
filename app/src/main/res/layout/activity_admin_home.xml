@@ -65,7 +65,7 @@
         android:fontFamily="@font/segoeuib"
         android:paddingRight="40dp"
         android:paddingBottom="140dp"
-        android:text="History"
+        android:text="Transaction"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
