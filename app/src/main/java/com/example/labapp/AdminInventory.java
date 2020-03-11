@@ -96,13 +96,7 @@ public class AdminInventory extends AppCompatActivity{
         });
     }
 
-    public void returnItems(){
 
-        itemsReturn = new ArrayList<>();
-
-
-
-    }
 
 
 
