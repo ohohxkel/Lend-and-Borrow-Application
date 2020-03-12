@@ -126,7 +126,6 @@
         android:textAlignment="center"
         android:checked="false"
         android:clickable="false"
-        android:textAlignment="center"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/spinner_slot1"
         app:layout_constraintEnd_toEndOf="@+id/imageView2"

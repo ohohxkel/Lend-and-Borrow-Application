@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdminHome extends AppCompatActivity {
-    Button button_admin_register, button_admin_generate, button_admin_history, button_logout;
+    Button button_admin_register, button_admin_generate, button_admin_history, button_logout, button_inventory;
 
 
     @Override
@@ -26,9 +26,16 @@ public class AdminHome extends AppCompatActivity {
         });
 
 
-        AdminInventory toBorrow = new AdminInventory();
+        button_inventory= findViewById(R.id.button_admin_register7);
+        button_inventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminHome.this, AdminInventory.class);
+                startActivity(intent);
+            }
+        });
 
-        toBorrow.borrowItems();
+
 
         button_admin_generate= findViewById(R.id.button_admin_generate);
         button_admin_generate.setOnClickListener(new View.OnClickListener() {
