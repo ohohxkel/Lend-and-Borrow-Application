@@ -1,10 +1,17 @@
 package com.example.labapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.constraintlayout.widget.Constraints;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Image;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +42,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.opencensus.common.ServerStatsFieldEnums;
+
 public class AdminHistory extends AppCompatActivity{
     Button button_back;
 
@@ -42,6 +52,9 @@ public class AdminHistory extends AppCompatActivity{
     private CheckBox checkBoxReturned;
     private ArrayList<UserBorrow> mUserBorrow = new ArrayList<>();
     public static final String TAG = "AdminHistory";
+
+    private ImageView imageView;
+    private ConstraintLayout constraintLayout;
 
 
     @Override
@@ -80,6 +93,7 @@ public class AdminHistory extends AppCompatActivity{
                 //.orderBy("borrowedDate", Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
@@ -108,6 +122,8 @@ public class AdminHistory extends AppCompatActivity{
                                   textViewDate.setText(borrowedDateString);
                                   textViewTransactionNumber.setText(docID);
                                   checkBoxReturned.setChecked(returned);
+
+                                  createAnotherTransactionBox(5, 0.300f);
                                }
 
                             } else {
@@ -116,6 +132,32 @@ public class AdminHistory extends AppCompatActivity{
 
                     }
                 });
+    }
+
+    @SuppressLint("NewApi")
+    private void createAnotherTransactionBox(int id, float verticalBias) {
+        ImageView imageView = new ImageView(getApplicationContext());
+        imageView.setImageDrawable(getDrawable(R.drawable.rectangle_history));
+        imageView.setId(id);
+
+
+        ConstraintLayout constraintLayout = (ConstraintLayout) findViewById(R.id.constraintHistoryLayout);
+        ConstraintSet set = new ConstraintSet();
+
+       // ConstraintLayout.LayoutParams constraintLayout = (ConstraintLayout.LayoutParams) findViewById(R.id.imageView2).getLayoutParams();
+      //  ConstraintLayout.LayoutParams newConstraintLayout = (ConstraintLayout.LayoutParams) new ConstraintLayout.LayoutParams()
+
+        // constraintLayout.verticalBias = 0.800f;
+       // imageView.setLayoutParams(constraintLayout);
+        constraintLayout.addView(imageView);
+        set.clone(constraintLayout);
+        set.connect(constraintLayout.getId(),ConstraintSet.TOP, constraintLayout.getId(), ConstraintSet.BOTTOM);
+        set.connect(constraintLayout.getId(),ConstraintSet.START,constraintLayout.getId(),ConstraintSet.END);
+        set.setHorizontalBias(id, 0.534f);
+        set.setVerticalBias(id,0.200f + verticalBias);
+        set.applyTo(constraintLayout);
+
+
     }
 
 
