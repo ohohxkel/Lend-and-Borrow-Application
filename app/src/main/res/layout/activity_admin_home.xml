@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_admin_register7"
+        android:id="@+id/button_admin_inventory"
         android:layout_width="202dp"
         android:layout_height="215dp"
         android:background="@drawable/button_admin_inventory"

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 public class AdminHome extends AppCompatActivity {
-    Button button_admin_register, button_admin_generate, button_admin_history, button_logout, button_inventory;
+    Button button_admin_register, button_admin_generate, button_admin_history, button_logout, button_admin_inventory;
 
 
     @Override
@@ -26,8 +26,8 @@ public class AdminHome extends AppCompatActivity {
         });
 
 
-        button_inventory= findViewById(R.id.button_admin_register7);
-        button_inventory.setOnClickListener(new View.OnClickListener() {
+        button_admin_inventory= findViewById(R.id.button_admin_inventory);
+        button_admin_inventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AdminHome.this, AdminInventory.class);
@@ -45,6 +45,7 @@ public class AdminHome extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         button_admin_history= findViewById(R.id.button_admin_history);
         button_admin_history.setOnClickListener(new View.OnClickListener() {
             @Override
