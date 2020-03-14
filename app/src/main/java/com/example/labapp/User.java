@@ -1,21 +1,25 @@
 package com.example.labapp;
 
+import java.util.List;
+
 public class User {
 
 
     public String name, email, studentNumber, yearAndSection, userID;
+    List<String> tags;
 
     public User(){
 
     }
 
 
-    public User(String email, String name, String studentNumber, String userID, String yearAndSection) {
+    public User(String email, String name, String studentNumber, String userID, String yearAndSection, List<String> tags) {
         this.name = name;
         this.email = email;
         this.studentNumber = studentNumber;
         this.userID= userID;
         this.yearAndSection = yearAndSection;
+        this.tags = tags;
     }
     public String getName() {
         return name;
@@ -57,7 +61,7 @@ public class User {
         this.userID = userID;
     }
 
-
-
-
+    public List<String> getTags() {
+        return tags;
+    }
 }

@@ -11,10 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +27,7 @@ import java.util.List;
 public class AdminInventory extends AppCompatActivity {
     Button button_back, button_load;
     TextView itemsAvailable;
-    ArrayList<String> group;
+
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
@@ -38,7 +41,6 @@ public class AdminInventory extends AppCompatActivity {
         itemsAvailable = (TextView) findViewById(R.id.itemsAvailable);
 
         displayItems();
-
 
         button_back = findViewById(R.id.button_back);
         button_back.setOnClickListener(new View.OnClickListener() {
@@ -62,27 +64,24 @@ public class AdminInventory extends AppCompatActivity {
     }
 
 
-    private void displayItems() {
-        itemsRef.document("Items").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    //display items available from the Inventory (firestore)
+    public void displayItems() {
+        itemsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                String data = "";
 
-                    DocumentSnapshot document = task.getResult();
-
-
-                    List<String> group =  (List<String>) document.get("tags");
-
-                    itemsAvailable.setText(group.toString());
-
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    User user = documentSnapshot.toObject(User.class);
+                    for (String tag : user.getTags()) {
+                        data += "\n-" + tag;
                     }
-
                 }
-            });
-        };
-
-
+                itemsAvailable.setText(data);
+            }
+        });
     }
+}
 
 
 
