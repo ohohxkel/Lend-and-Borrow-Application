@@ -19,22 +19,18 @@
         android:textColorHighlight="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toStartOf="@+id/button_submit"
-        app:layout_constraintHorizontal_bias="0.32"
-
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.912"
-
+        app:layout_constraintHorizontal_bias="0.933"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resultsOfQr"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.111" />
 
     <Button
 
-        android:id="@+id/button_submit"
-	android:layout_width="170dp"
+        android:id="@+id/button_save"
+        android:layout_width="170dp"
         android:layout_height="40dp"
+        android:layout_marginStart="32dp"
         android:background="@drawable/button_admin"
         android:cursorVisible="true"
         android:fontFamily="@font/seguisb"
@@ -44,10 +40,10 @@
         android:textColorHighlight="#FFFFFF"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_save4"
+        app:layout_constraintEnd_toStartOf="@+id/button_submit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/resultsOfQr"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.111" />
 
     <TextView
         android:id="@+id/resultsOfQr"
@@ -76,9 +72,10 @@
         app:frameThickness="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.952"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192"
+        app:layout_constraintVertical_bias="0.0"
         app:maskColor="#77000000" />
 
 
