@@ -36,7 +36,7 @@ public class AdminHome extends AppCompatActivity {
         button_admin_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminHome.this, AdminHistory.class);
+                Intent intent = new Intent(AdminHome.this, AdminTransaction.class);
                 startActivity(intent);
             }
         });
