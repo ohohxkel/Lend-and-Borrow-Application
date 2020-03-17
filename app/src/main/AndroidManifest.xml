@@ -14,8 +14,8 @@
         android:roundIcon="@mipmap/lab_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name=".StudentScanner" >
-        </activity>
+
+        <activity android:name=".StudentScanner"/>
         <activity android:name=".AdminScanner" />
         <activity android:name=".AdminGenerate" />
         <activity android:name=".LogoutConfirmationStudents" />
