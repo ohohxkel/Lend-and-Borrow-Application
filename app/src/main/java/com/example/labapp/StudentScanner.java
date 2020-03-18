@@ -12,9 +12,14 @@ import android.widget.TextView;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
@@ -71,6 +76,7 @@ public class StudentScanner extends AppCompatActivity {
             }
         });
 
+        Query userDocs = itemsRef.whereEqualTo("userID", userID);
 
         //pass data from Inventory collection to user's transaction
         userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
