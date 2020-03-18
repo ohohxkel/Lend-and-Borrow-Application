@@ -19,6 +19,45 @@
         app:layout_constraintTop_toBottomOf="@+id/scanner_view"
         app:layout_constraintVertical_bias="0.481" />
 
+    <Button
+
+        android:id="@+id/button_admin_save"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_admin"
+        android:cursorVisible="true"
+        android:fontFamily="@font/seguisb"
+        android:paddingBottom="5sp"
+        android:text="Next item"
+        android:textColor="@color/colorWhite"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.165"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.917" />
+
+    <Button
+        android:id="@+id/button_done"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_admin"
+        android:cursorVisible="true"
+        android:fontFamily="@font/seguisb"
+        android:paddingBottom="5sp"
+        android:text="Done"
+        android:textColor="@color/colorWhite"
+        android:textColorHighlight="#FFFFFF"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.917" />
+
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/scanner_view"
         android:layout_width="366dp"
@@ -37,15 +76,7 @@
         app:layout_constraintVertical_bias="0.192"
         app:maskColor="#77000000" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="214dp"
-        android:layout_height="14dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/resultsOfQr"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scanner_view" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

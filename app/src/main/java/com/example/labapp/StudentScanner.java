@@ -28,6 +28,10 @@ public class StudentScanner extends AppCompatActivity {
     ArrayList<String> itemsAdd;
     String item_values1, item_values2, item_values3, item_values4, item_values5;
 
+
+
+    private FirebaseAuth mAuth;
+
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
     CollectionReference usersRef = db.collection("users");
@@ -41,6 +45,9 @@ public class StudentScanner extends AppCompatActivity {
         codeScanner = new CodeScanner( this, scannView);
         resultData = findViewById(R.id.resultsOfQr);
         button_save = findViewById(R.id.button_save);
+
+        button_submit = findViewById(R.id.button_submit);
+
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -63,6 +70,36 @@ public class StudentScanner extends AppCompatActivity {
                 codeScanner.startPreview();
             }
         });
+
+
+        //pass data from Inventory collection to user's transaction
+        userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for( QueryDocumentSnapshot document: queryDocumentSnapshots) {
+                    //get current user's student number
+                    User user = document.toObject(User.class);
+                    final String currentUserID = user.getStudentNumber();
+
+                    button_submit.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            for (int i = 0; i < itemsAdd.size(); i++) {
+                                itemsRef.document("Items").update("tags", FieldValue.arrayRemove(itemsAdd.get(i)));
+                                usersRef.document(currentUserID).collection("Borrow")
+                                        .document("1-" + currentUserID)
+                                        .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
+                            }
+                        }
+
+                    });
+
+
+                }
+            }
+        });
+
     }
     @Override
     protected void onResume() {

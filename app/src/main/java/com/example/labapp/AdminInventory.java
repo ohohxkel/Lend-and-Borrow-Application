@@ -28,7 +28,6 @@ public class AdminInventory extends AppCompatActivity {
     Button button_back, button_load;
     TextView itemsAvailable;
 
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference itemsRef = db.collection("Inventory");
 
