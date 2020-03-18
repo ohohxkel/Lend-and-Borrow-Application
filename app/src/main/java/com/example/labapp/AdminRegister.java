@@ -146,18 +146,20 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
                             user.put("email", email);
                             user.put("studentNumber", studentNumber);
                             user.put("yearAndSection", yearAndSection);
+                            user.put("transactions", 0);
                             DocumentReference documentReference = fStore.collection("users").document(studentNumber);
 
                               documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d("TAG", "onSuccess: User Profile is created for " + name);
+                                        Toast.makeText(AdminRegister.this, "Registered " + name + " successfully",Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
 
 
                             progressDialog.hide();
-                            Toast.makeText(AdminRegister.this, "Registered Successfully",Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(AdminRegister.this, AdminHome.class);
                             startActivity(intent);

@@ -4,18 +4,21 @@ public class User {
 
 
     public String name, email, studentNumber, yearAndSection, userID;
+    public int transactions;
 
     public User(){
 
     }
 
 
-    public User(String email, String name, String studentNumber, String userID, String yearAndSection) {
+
+    public User(String email, String name, String studentNumber, String userID, String yearAndSection, int transactions) {
         this.name = name;
         this.email = email;
         this.studentNumber = studentNumber;
         this.userID= userID;
         this.yearAndSection = yearAndSection;
+        this.transactions = transactions;
     }
     public String getName() {
         return name;
@@ -57,6 +60,9 @@ public class User {
         this.userID = userID;
     }
 
+    public int getTransactions() { return transactions; }
+
+    public void setTransactions(int transactions) { this.transactions = transactions; }
 
 
 
