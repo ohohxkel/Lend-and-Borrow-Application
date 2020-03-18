@@ -48,31 +48,6 @@ public class AdminTransaction extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
 
         loadTransactions();
-
-
-/*        add_button.setOnClickListener(new View.OnClickListener()  {
-            @Override
-            public void onClick(View v) {
-
-                TextView transaction_num = new TextView(AdminTransaction.this);
-                transaction_num.setText("Transaction Number");
-                TextView transaction_yearsection = new TextView(AdminTransaction.this);
-                transaction_yearsection.setText("Year & Section");
-                CheckBox transaction_status = new CheckBox(AdminTransaction.this);
-                transaction_status.setText("Returned");
-                Spinner transaction_items = new Spinner(AdminTransaction.this);
-                transaction_items.setTag("Items");
-                TextView transaction_line = new TextView(AdminTransaction.this);
-                transaction_line.setText("______________________________________________");
-
-                addText(transaction_num, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                addText1(transaction_yearsection, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                addText2(transaction_status, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                addText3(transaction_items, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                addText4(transaction_line, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-            }
-        });*/
     }
 
     public void addText(TextView transaction_num, int width, int height) {
