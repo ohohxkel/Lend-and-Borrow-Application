@@ -8,13 +8,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/lab_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".AdminTransaction"></activity>
-        <activity android:name=".StudentScanner"></activity>
+        android:theme="@style/AppTheme" >
+
+        <activity android:name=".StudentScanner"/>
         <activity android:name=".AdminScanner" />
         <activity android:name=".AdminGenerate" />
         <activity android:name=".LogoutConfirmationStudents" />
         <activity android:name=".LogoutConfirmation" />
+        <activity android:name=".AdminHistory" />
+        <activity android:name=".AdminInventory" />
         <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />
         <activity android:name=".AdminHome" />
