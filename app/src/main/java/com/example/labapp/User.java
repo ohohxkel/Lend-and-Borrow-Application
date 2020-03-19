@@ -6,27 +6,27 @@ public class User {
 
 
     public String name, email, studentNumber, yearAndSection, userID;
+    public int transactions;
     List<String> tags;
 
-    public User(){
-
+    public User() {
     }
 
 
-    public User(String email, String name, String studentNumber, String userID, String yearAndSection, List<String> tags) {
-        this.name = name;
-        this.email = email;
-        this.studentNumber = studentNumber;
-        this.userID= userID;
-        this.yearAndSection = yearAndSection;
-        this.tags = tags;
-    }
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getStudentNumber() {
@@ -45,14 +45,6 @@ public class User {
         this.yearAndSection = yearAndSection;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getUserID() {
         return userID;
     }
@@ -61,7 +53,30 @@ public class User {
         this.userID = userID;
     }
 
+    public int getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(int transactions) {
+        this.transactions = transactions;
+    }
+
     public List<String> getTags() {
         return tags;
     }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public User(String email, String name, String studentNumber, String userID, String yearAndSection, int transactions, List<String> tags) {
+        this.name = name;
+        this.email = email;
+        this.studentNumber = studentNumber;
+        this.userID = userID;
+        this.yearAndSection = yearAndSection;
+        this.transactions = transactions;
+        this.tags = tags;
+    }
+
 }
