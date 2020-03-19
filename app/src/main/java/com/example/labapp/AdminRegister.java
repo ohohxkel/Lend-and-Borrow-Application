@@ -147,6 +147,7 @@ public class AdminRegister extends AppCompatActivity implements View.OnClickList
                             user.put("studentNumber", studentNumber);
                             user.put("yearAndSection", yearAndSection);
                             user.put("transactions", 0);
+
                             DocumentReference documentReference = fStore.collection("users").document(studentNumber);
 
                               documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
