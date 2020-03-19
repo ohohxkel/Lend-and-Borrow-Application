@@ -15,8 +15,7 @@ public class User {
 
 
 
-    public User(String email, String name, String studentNumber, String userID, String yearAndSection, int transactions) {
-    public User(String email, String name, String studentNumber, String userID, String yearAndSection, List<String> tags) {
+    public User(String email, String name, String studentNumber, String userID, String yearAndSection, int transactions, List<String> tags) {
         this.name = name;
         this.email = email;
         this.studentNumber = studentNumber;
