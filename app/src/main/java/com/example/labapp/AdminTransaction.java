@@ -131,6 +131,7 @@ public class AdminTransaction extends AppCompatActivity {
                                 transaction_yearsection.setText(borrowedDateString);
                                 CheckBox transaction_status = new CheckBox(AdminTransaction.this);
                                 transaction_status.setChecked(returned);
+                                transaction_status.setClickable(false);
                                 transaction_status.setText("Returned");
                                 Spinner transaction_items = new Spinner(AdminTransaction.this);
                                 transaction_items.setTag("Items");
@@ -151,5 +152,7 @@ public class AdminTransaction extends AppCompatActivity {
 
 
     }
+
+
 
 }
