@@ -16,11 +16,11 @@ public class StudentHelp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_help);
 
-        button_back = findViewById(R.id.button_back);
+        button_back = findViewById(R.id.button_help_back);
         button_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StudentHelp.this,StudentHelp.class);
+                Intent intent = new Intent(StudentHelp.this,StudentHome.class);
                 startActivity(intent);
             }
         });
