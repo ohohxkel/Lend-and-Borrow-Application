@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".StudentHelp"></activity>
+        <activity android:name=".StudentReceipt"></activity>
         <activity android:name=".StudentScanner" />
         <activity android:name=".AdminScanner" />
         <activity android:name=".AdminGenerate" />
