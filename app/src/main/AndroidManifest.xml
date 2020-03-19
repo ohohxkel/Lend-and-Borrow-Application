@@ -15,7 +15,7 @@
         <activity android:name=".AdminGenerate" />
         <activity android:name=".LogoutConfirmationStudents" />
         <activity android:name=".LogoutConfirmation" />
-        <activity android:name=".AdminHistory" />
+        <activity android:name=".AdminTransaction" />
         <activity android:name=".AdminInventory" />
         <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />
