@@ -20,16 +20,6 @@ public class StudentReceipt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_receipt);
 
-
-
-        button_back = findViewById(R.id.button_back);
-        button_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(StudentReceipt.this, StudentHome.class);
-                startActivity(intent);
-            }
-        });
         // just to see if its duplicating
         button_sample = findViewById(R.id.button_sample);
         button_sample.setOnClickListener(new View.OnClickListener() {
@@ -44,6 +34,15 @@ public class StudentReceipt extends AppCompatActivity {
 
                 addItem(returned_item, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+            }
+        });
+
+        button_back = findViewById(R.id.button_back);
+        button_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentReceipt.this, StudentHome.class);
+                startActivity(intent);
             }
         });
     }

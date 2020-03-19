@@ -30,7 +30,7 @@ public class StudentHome extends AppCompatActivity {
     private FirebaseFirestore fStore;
     private TextView textViewName, textViewStudentNumber, textViewYearAndSection;
     private ArrayList<User> mUsers = new ArrayList<>();
-    Button button_logout,button_student_scanner,button_student_help;
+    Button button_logout,button_student_scanner,button_student_help, button_student_receipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +106,15 @@ public class StudentHome extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(StudentHome.this, StudentHelp.class);
+                startActivity(intent);
+            }
+        });
+
+        button_student_receipt = findViewById(R.id.button_student_receipt);
+        button_student_receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentHome.this, StudentReceipt.class);
                 startActivity(intent);
             }
         });
