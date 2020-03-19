@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LabApp</string>
+    <string name="app_name">LAB</string>
     <string name="string_student_number">20XX-XXXXX-MN-0</string>
     <string name="string_student_name">Name</string>
     <string name="string_student_email">Email</string>
@@ -11,7 +11,6 @@
         <item>prjr-02</item>
         <item>lptp-03</item>
     </string-array>
-
 
 
 </resources>
