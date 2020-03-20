@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.labapp">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/lab_icon_round"
@@ -14,15 +9,16 @@
         android:roundIcon="@mipmap/lab_icon_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".StudentHelp"></activity>
-        <activity android:name=".StudentReceipt"></activity>
+        <activity android:name=".AdminInventory"></activity>
+        <activity android:name=".StudentHelp" />
+        <activity android:name=".StudentReceipt" />
         <activity android:name=".StudentScanner" />
         <activity android:name=".AdminScanner" />
         <activity android:name=".AdminGenerate" />
         <activity android:name=".LogoutConfirmationStudents" />
         <activity android:name=".LogoutConfirmation" />
         <activity android:name=".AdminTransaction" />
-        <activity android:name=".AdminInventory" />
+        <activity android:name=".AdminInventoryOld" />
         <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />
         <activity android:name=".AdminHome" />
@@ -44,5 +40,10 @@
         </activity>
         <activity android:name=".MainActivity" />
     </application>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>
