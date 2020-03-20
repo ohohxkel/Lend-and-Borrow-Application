@@ -34,6 +34,7 @@ import com.google.zxing.Result;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -163,12 +164,11 @@ public class StudentScanner extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
 
                     UserBorrow userborrow = document.toObject(UserBorrow.class);
-                    Timestamp borrowedDate = userborrow.getBorrowedDate();
                     boolean isReturned = userborrow.isReturned();
                     List<String> getItems = userborrow.getItems();
 
                     Map<String, Object> trans = new HashMap<>();
-                    trans.put("borrowedDate", borrowedDate);
+                    trans.put("borrowedDate", FieldValue.serverTimestamp());
                     trans.put("items", getItems);
                     trans.put("returned", isReturned);
 
