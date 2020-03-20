@@ -103,7 +103,7 @@
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
+        app:layout_constraintHorizontal_bias="0.173"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
         app:layout_constraintVertical_bias="0.766" />
@@ -121,7 +121,7 @@
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView_reminder"
         app:layout_constraintTop_toBottomOf="@+id/textView14"
         app:layout_constraintVertical_bias="0.766" />
@@ -211,6 +211,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Button"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/textView_reminder"
         app:layout_constraintEnd_toStartOf="@+id/layout"
         app:layout_constraintHorizontal_bias="0.625"
