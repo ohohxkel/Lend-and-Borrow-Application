@@ -93,17 +93,31 @@ public class AdminInventory extends AppCompatActivity {
                 enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        item_text_input=item_text.getText().toString();
-                        Toast.makeText(AdminInventory.this, ""+item_text_input+" has been added", Toast.LENGTH_LONG).show();
-                        //generate new qr for new item
+                        int length = item_text.length();
 
-                        TextView item_name = new TextView(AdminInventory.this);
-                        item_name.setText(item_text_input);
-                        item_name.setTextColor(getResources().getColor(android.R.color.darker_gray));
-                        addItem(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                        if (length==0) {
+                            AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
+                            nullItem.setTitle("Invalid");
 
+                            nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            nullItem.show();
+                        }
+                        else {
+                            item_text_input = item_text.getText().toString();
 
-                        qrGenerate();
+                            TextView item_name = new TextView(AdminInventory.this);
+                            item_name.setText(item_text_input);
+                            item_name.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                            addItem(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            //generate new qr for new item
+                            qrGenerate();
+                        }
                     }
                 });
 
@@ -134,6 +148,7 @@ public class AdminInventory extends AppCompatActivity {
         layout.addView(item_name);
     }
 
+    //Method that generates QR and show it in a dialog
     public void qrGenerate() {
 
         qr_generate = new Dialog(AdminInventory.this);
@@ -150,7 +165,7 @@ public class AdminInventory extends AppCompatActivity {
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 700, 700);
+            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 500, 500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             qr_image.setImageBitmap(bitmap);
@@ -164,6 +179,7 @@ public class AdminInventory extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 qr_generate.cancel();
+                Toast.makeText(AdminInventory.this, "" + item_text_input + " has been added", Toast.LENGTH_LONG).show();
             }
         });
         qr_generate.show();

@@ -5,27 +5,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="275dp"
-        android:layout_height="247dp"
+
+    <TextView
+        android:layout_width="297dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="30dp"
+        android:fontFamily="@font/seguisb"
+        android:text="Take a screenshot of this code"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="15sp" />
+
+
+    <ImageView
+        android:id="@+id/qrcode_place_holder"
+        android:layout_width="187dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
         android:contentDescription="@string/app_name"
         app:srcCompat="@drawable/qrcode_place_holder" />
 
     <TextView
         android:layout_width="200dp"
-        android:layout_height="20dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/colorBlack"
+        android:fontFamily="@font/seguisb"
         android:id="@+id/new_item"/>
 
     <Button
         android:id="@+id/done"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="164dp"
+        android:layout_height="56dp"
+        android:background="@drawable/button_login"
+        android:text="DONE"
+        android:textColor="@color/colorWhite"
+        android:textSize="18dp"
         android:layout_gravity="center"
-        android:layout_margin="30dp"
-        android:background="@drawable/button_check" />
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="10dp"/>
+
 
 </LinearLayout>
