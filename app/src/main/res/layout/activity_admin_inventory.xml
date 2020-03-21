@@ -34,6 +34,24 @@
         fab:layout_constraintTop_toTopOf="parent"
         fab:layout_constraintVertical_bias="0.073" />
 
+    <ScrollView
+        android:layout_width="368dp"
+        android:layout_height="598dp"
+        android:layout_marginBottom="16dp"
+        fab:layout_constraintBottom_toBottomOf="parent"
+        fab:layout_constraintEnd_toEndOf="parent"
+        fab:layout_constraintHorizontal_bias="0.488"
+        fab:layout_constraintStart_toStartOf="parent"
+        fab:layout_constraintTop_toBottomOf="@+id/textView_inventory2"
+        fab:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
     <com.github.clans.fab.FloatingActionMenu
         android:layout_width="204dp"
         android:layout_height="245dp"
@@ -97,6 +115,8 @@
 
 
     </com.github.clans.fab.FloatingActionMenu>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
