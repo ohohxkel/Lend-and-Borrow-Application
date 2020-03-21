@@ -63,7 +63,7 @@
         android:layout_height="215dp"
         android:background="@drawable/button_admin_history"
         android:fontFamily="@font/segoeuib"
-        android:paddingRight="40dp"
+        android:paddingRight="1dp"
         android:paddingBottom="140dp"
         android:text="Transaction"
         android:textSize="20sp"

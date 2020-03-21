@@ -60,8 +60,8 @@
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/scanner_view"
-        android:layout_width="366dp"
-        android:layout_height="624dp"
+        android:layout_width="363dp"
+        android:layout_height="587dp"
         app:frameAspectRatioHeight="1"
         app:frameAspectRatioWidth="1"
         app:frameColor="@android:color/white"

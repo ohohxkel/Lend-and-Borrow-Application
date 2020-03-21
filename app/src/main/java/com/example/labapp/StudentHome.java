@@ -26,11 +26,11 @@ import java.util.ArrayList;
 
 public class StudentHome extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore fStore;
-    private TextView textViewName, textViewStudentNumber, textViewYearAndSection;
-    private ArrayList<User> mUsers = new ArrayList<>();
-    Button button_logout,button_student_scanner;
+    public FirebaseAuth mAuth;
+    public FirebaseFirestore fStore;
+    public TextView textViewName, textViewStudentNumber, textViewYearAndSection;
+    public ArrayList<User> mUsers = new ArrayList<>();
+    Button button_logout,button_student_scanner,button_student_help, button_student_receipt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,40 +48,7 @@ public class StudentHome extends AppCompatActivity {
         textViewYearAndSection.setText(" ");
 
 
-
-        String userID = mAuth.getCurrentUser().getUid().toString();
-        CollectionReference users = fStore.collection("users");
-        Query userss = users.whereEqualTo("userID", userID);
-
-         userss.get()
-                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                     @Override
-                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                         if(task.isSuccessful()){
-
-                             for( QueryDocumentSnapshot document: task.getResult()){
-                                 User user = document.toObject(User.class);
-                                 mUsers.add(user);
-
-                                 String email = user.getEmail();
-                                 String name = user.getName();
-                                 String yearAndSection = user.getYearAndSection();
-                                 String studentNumberString = user.getStudentNumber();
-                                 Toast.makeText(StudentHome.this,"Successful loading" + name, Toast.LENGTH_SHORT);
-
-
-                                textViewName.setText(name);
-                                textViewYearAndSection.setText("BSCOE " + yearAndSection);
-                                textViewStudentNumber.setText(studentNumberString);
-
-                             }
-
-                         } else {
-
-                             Toast.makeText(StudentHome.this,"Unsuccessful loading", Toast.LENGTH_SHORT);
-                         }
-                     }
-                 });
+        showStudentDetails();
 
         button_logout= findViewById(R.id.button_logout);
         button_logout.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +68,62 @@ public class StudentHome extends AppCompatActivity {
             }
         });
 
+        button_student_help = findViewById(R.id.button_student_help);
+        button_student_help.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentHome.this, StudentHelp.class);
+                startActivity(intent);
+            }
+        });
+
+        button_student_receipt = findViewById(R.id.button_student_receipt);
+        button_student_receipt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentHome.this, StudentReceipt.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+
+    public void showStudentDetails(){
+
+        String userID = mAuth.getCurrentUser().getUid().toString();
+        CollectionReference users = fStore.collection("users");
+        Query userss = users.whereEqualTo("userID", userID);
+
+        userss.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+
+                            for( QueryDocumentSnapshot document: task.getResult()){
+                                User user = document.toObject(User.class);
+                                mUsers.add(user);
+
+                                String email = user.getEmail();
+                                String name = user.getName();
+                                String yearAndSection = user.getYearAndSection();
+                                String studentNumberString = user.getStudentNumber();
+                                Toast.makeText(StudentHome.this,"Successful loading" + name, Toast.LENGTH_SHORT);
+
+
+                                textViewName.setText(name);
+                                textViewYearAndSection.setText("BSCOE " + yearAndSection);
+                                textViewStudentNumber.setText(studentNumberString);
+
+                            }
+
+                        } else {
+
+                            Toast.makeText(StudentHome.this,"Unsuccessful loading", Toast.LENGTH_SHORT);
+                        }
+                    }
+                });
     }
     @Override
     public void onBackPressed(){
