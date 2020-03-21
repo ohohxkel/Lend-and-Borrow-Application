@@ -147,7 +147,16 @@ public class AdminInventory extends AppCompatActivity {
         new_item.setText(item_text_input);
         String text = new_item.getText().toString();
 
-        
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 700, 700);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            qr_image.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
 
         done.setEnabled(true);
 
