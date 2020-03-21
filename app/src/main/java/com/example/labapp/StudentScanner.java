@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,11 +41,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StudentScanner extends AppCompatActivity {
+public class StudentScanner extends AppCompatActivity implements View.OnClickListener {
     CodeScanner codeScanner;
     CodeScannerView scannView;
     TextView resultData, itemsArray;
     Button button_save, button_submit, buttonSubmit;
+
+    ProgressDialog progressDialog;
 
 
     ArrayList<String> itemsAdd = new ArrayList<>();
@@ -54,11 +58,14 @@ public class StudentScanner extends AppCompatActivity {
     CollectionReference itemsRef = db.collection("Inventory");
     CollectionReference usersRef = db.collection("users");
 
+    public static final String TAG = "StudentScanner";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_scanner);
 
+        progressDialog = new ProgressDialog(this);
 
         scannView = findViewById(R.id.scanner_view);
         codeScanner = new CodeScanner(this, scannView);
@@ -81,8 +88,8 @@ public class StudentScanner extends AppCompatActivity {
         });
 
         borrowItems();
-        submitItems();
-
+       // submitItems();
+        button_submit.setOnClickListener(this);
 
         scannView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,64 +157,87 @@ public class StudentScanner extends AppCompatActivity {
     }
 
 
-
     public void submitItems() {
-        mAuth = FirebaseAuth.getInstance();
-        String userID = mAuth.getCurrentUser().getUid().toString();
+        if (itemsAdd.size() == 0) {  Toast.makeText(StudentScanner.this, "Scan items to submit request" ,Toast.LENGTH_SHORT).show();}
+        if (itemsAdd.size() > 0) {
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
 
-        Query userDocs = usersRef.whereEqualTo("userID", userID);
-        userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
-                    UserBorrow userborrow = document.toObject(UserBorrow.class);
-                    boolean isReturned = userborrow.isReturned();
-                    List<String> getItems = userborrow.getItems();
-
-                    Map<String, Object> trans = new HashMap<>();
-                    trans.put("borrowedDate", FieldValue.serverTimestamp());
-                    trans.put("items", getItems);
-                    trans.put("returned", isReturned);
-
-                    User user = document.toObject(User.class);
-                    final String currentUserID = user.getStudentNumber();
-                    final int transaction = user.getTransactions();
-
-                    final int transNum = transaction + 1;
-
-                    DocumentReference documentReference = db.collection("users").document(currentUserID)
-                            .collection("Borrow").document(transNum + "-" + currentUserID);
-
-                    documentReference.set(trans).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-
-                        }
-                    });
-
-                    usersRef.document(currentUserID).update("transactions", FieldValue.increment(1));
-
-                    button_submit.setOnClickListener(new View.OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-
-                            for (int i = 0; i < itemsAdd.size(); i++) {
-                                itemsRef.document("Items").update("tags", FieldValue.arrayRemove(itemsAdd.get(i)));
-                                usersRef.document(currentUserID).collection("Borrow")
-                                        .document(transNum + "-" + currentUserID)
-                                        .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
-                            }
-                        }
-
-                    });
-                }
+            if (itemsAdd == null) {
+                Toast.makeText(StudentScanner.this, "Scan items please.", Toast.LENGTH_SHORT).show();
             }
-        });
+
+            mAuth = FirebaseAuth.getInstance();
+            String userID = mAuth.getCurrentUser().getUid().toString();
+
+            Query userDocs = usersRef.whereEqualTo("userID", userID);
+            userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+
+
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+
+
+                        UserBorrow userborrow = document.toObject(UserBorrow.class);
+                        boolean isReturned = userborrow.isReturned();
+                        List<String> getItems = userborrow.getItems();
+
+
+                        Map<String, Object> trans = new HashMap<>();
+                        trans.put("borrowedDate", FieldValue.serverTimestamp());
+                        trans.put("items", getItems);
+                        trans.put("returned", isReturned);
+
+                        User user = document.toObject(User.class);
+                        final String currentUserID = user.getStudentNumber();
+                        final int transaction = user.getTransactions();
+
+                        final int transNum = transaction + 1;
+
+                        if (document != null) {
+                            Log.d(TAG, user.toString());
+                        }
+
+                        DocumentReference documentReference = db.collection("users").document(currentUserID)
+                                .collection("Borrow").document(transNum + "-" + currentUserID);
+
+                        documentReference.set(trans).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                            }
+                        });
+
+                        usersRef.document(currentUserID).update("transactions", FieldValue.increment(1));
+
+
+                        for (int i = 0; i < itemsAdd.size(); i++) {
+                            usersRef.document(currentUserID).collection("Borrow")
+                                    .document(transNum + "-" + currentUserID)
+                                    .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
+                        }
+
+                    }
+
+                    // redirecting to receipt if successful
+                    Intent intent = new Intent(StudentScanner.this, StudentReceipt.class);
+                    startActivity(intent);
+
+                }
+            });
+
+        }
 
     }
+
+    @Override
+    public void onClick(View v) {
+        if (v == button_submit) {
+            submitItems();
+        }
+
+    }
+
 
 }
