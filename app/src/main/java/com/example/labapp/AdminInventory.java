@@ -260,9 +260,9 @@ public class AdminInventory extends AppCompatActivity {
                 });
     }
 
-    public void addCategoryOnDatabase (boolean showCategory, String categoryText){
+    public void addCategoryOnDatabase ( String categoryText){
         String categoryTextDb = (String) categoryText;
-        boolean showCategoryDB = (boolean) showCategory;
+ //       boolean showCategoryDB = (boolean) showCategory;
 
         CollectionReference inventory = fStore.collection("Inventory");
         Map<String, Object> data = new HashMap<>();
