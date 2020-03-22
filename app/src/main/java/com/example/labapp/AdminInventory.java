@@ -60,63 +60,84 @@ public class AdminInventory extends AppCompatActivity {
 
         layout=findViewById(R.id.layout);
 
-
-
         fab_item=findViewById(R.id.fab_item);
         fab_item.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick (View view){
-                AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
-                enterItemName.setTitle("Enter item to add");
 
-                final EditText item_text = new EditText(AdminInventory.this);
-                item_text.setInputType(InputType.TYPE_CLASS_TEXT);
-                enterItemName.setView(item_text);
+                AlertDialog.Builder enterExistingCategory = new AlertDialog.Builder(AdminInventory.this);
+                enterExistingCategory.setTitle("Enter item to add");
 
-                enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                final EditText existing_category = new EditText(AdminInventory.this);
+                existing_category.setInputType(InputType.TYPE_CLASS_TEXT);
+                enterExistingCategory.setView(existing_category);
+
+                enterExistingCategory.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int length = item_text.length();
 
-                        //Display invalid dialog if string length == 0
-                        if (length==0) {
-                            AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
-                            nullItem.setTitle("Invalid");
+                        String existing_category_input = existing_category.getText().toString();
 
-                            nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    dialogInterface.cancel();
+                        AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
+                        enterItemName.setTitle("Enter item to add");
+
+                        final EditText item_text = new EditText(AdminInventory.this);
+                        item_text.setInputType(InputType.TYPE_CLASS_TEXT);
+                        enterItemName.setView(item_text);
+
+                        //!!!
+                        addItemOnDatabase(item_text_input, existing_category_input);
+
+                        enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                int length = item_text.length();
+
+                                //Display invalid dialog if string length == 0
+                                if (length==0) {
+                                    AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
+                                    nullItem.setTitle("Invalid");
+
+                                    nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int which) {
+                                            dialogInterface.cancel();
+                                        }
+                                    });
+                                    nullItem.show();
                                 }
-                            });
-                            nullItem.show();
-                        }
-                        else {
-                            item_text_input = item_text.getText().toString();
+                                else {
+                                    item_text_input = item_text.getText().toString();
 
-                            item_name = new LinearLayout(AdminInventory.this);
-                            item_name.setBackgroundResource(R.drawable.rectangle_extended);
-                            addItemContainer(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                            item_name.setVisibility(View.GONE);
+                                    item_name = new LinearLayout(AdminInventory.this);
+                                    item_name.setBackgroundResource(R.drawable.rectangle_extended);
+                                    addItemContainer(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    item_name.setVisibility(View.GONE);
 
-                            TextView item_name_input = new TextView(AdminInventory.this);
-                            item_name_input.setText(item_text_input);
-                            addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                    TextView item_name_input = new TextView(AdminInventory.this);
+                                    item_name_input.setText(item_text_input);
+                                    addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-                            //generate new qr for new item
-                            qrGenerate();
-                        }
+                                    //generate new qr for new item
+                                    qrGenerate();
+
+                                }
+                            }
+                        });
+
+                        enterItemName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        enterItemName.show();
+
                     }
                 });
+                enterExistingCategory.show();
 
-                enterItemName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                enterItemName.show();
             }
         });
 
@@ -131,6 +152,9 @@ public class AdminInventory extends AppCompatActivity {
                 final EditText category_text = new EditText(AdminInventory.this);
                 category_text.setInputType(InputType.TYPE_CLASS_TEXT);
                 enterCategoryName.setView(category_text);
+                
+                //!!!
+                addCategoryOnDatabase(category_text_input);
 
                 enterCategoryName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
@@ -147,6 +171,7 @@ public class AdminInventory extends AppCompatActivity {
                         category_name.setTextColor(getResources().getColor(android.R.color.black));
                         addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
+
                         category_name.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -159,6 +184,7 @@ public class AdminInventory extends AppCompatActivity {
 
                             }
                         });
+
                     }
                 });
 
