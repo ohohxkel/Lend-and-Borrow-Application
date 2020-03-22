@@ -1,6 +1,7 @@
 package com.example.labapp;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,12 +23,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdminInventory extends AppCompatActivity {
     LinearLayout layout, item_name;
@@ -37,6 +47,8 @@ public class AdminInventory extends AppCompatActivity {
     ImageView qr_image;
     Button done;
     TextView new_item;
+
+    FirebaseFirestore fStore;
 
 
 
@@ -220,6 +232,55 @@ public class AdminInventory extends AppCompatActivity {
         });
         qr_generate.show();
 
+    }
+
+    //Call method to add the item on database, considering the parameters needed
+
+    public void addItemOnDatabase (String itemText, String categoryText){
+        //initialization
+        String itemTextDb = (String) itemText;
+        String categoryTextDb = (String) categoryText;
+
+        DocumentReference inventoryItems = fStore.collection("Inventory").document("Items");
+
+        inventoryItems.update(categoryTextDb, FieldValue.arrayUnion(itemTextDb))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(AdminInventory.this,"Successful", Toast.LENGTH_LONG);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminInventory.this,"Failure: \n" + e.toString(), Toast.LENGTH_LONG);
+
+                    }
+                });
+    }
+
+    public void addCategoryOnDatabase (boolean showCategory, String categoryText){
+        String categoryTextDb = (String) categoryText;
+        boolean showCategoryDB = (boolean) showCategory;
+
+        CollectionReference inventory = fStore.collection("Inventory");
+        Map<String, Object> data = new HashMap<>();
+        data.put("showCategory", showCategoryDB);
+
+        inventory.document(categoryText).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+                Toast.makeText(AdminInventory.this,"Successful", Toast.LENGTH_LONG);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminInventory.this,"Failure: \n" + e.toString(), Toast.LENGTH_LONG);
+
+                    }
+                });
     }
 
 
