@@ -36,6 +36,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -265,9 +266,9 @@ public class AdminInventory extends AppCompatActivity {
 
         CollectionReference inventory = fStore.collection("Inventory");
         Map<String, Object> data = new HashMap<>();
-        data.put("showCategory", showCategoryDB);
+        data.put(categoryTextDb, Arrays.asList(null));
 
-        inventory.document(categoryText).set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
+        inventory.document("Items").set(data).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
