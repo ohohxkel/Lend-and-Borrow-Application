@@ -1,5 +1,6 @@
 package com.example.labapp;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +9,10 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,9 +27,10 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
 
 public class AdminInventory extends AppCompatActivity {
-    LinearLayout layout;
+    LinearLayout layout, item_name;
     FloatingActionButton fab_category, fab_item;
     String category_text_input, item_text_input;
     Dialog qr_generate;
@@ -42,6 +47,65 @@ public class AdminInventory extends AppCompatActivity {
 
         layout=findViewById(R.id.layout);
 
+
+
+        fab_item=findViewById(R.id.fab_item);
+        fab_item.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
+                enterItemName.setTitle("Enter item to add");
+
+                final EditText item_text = new EditText(AdminInventory.this);
+                item_text.setInputType(InputType.TYPE_CLASS_TEXT);
+                enterItemName.setView(item_text);
+
+                enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int length = item_text.length();
+
+                        //Display invalid dialog if string length == 0
+                        if (length==0) {
+                            AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
+                            nullItem.setTitle("Invalid");
+
+                            nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            nullItem.show();
+                        }
+                        else {
+                            item_text_input = item_text.getText().toString();
+
+                            item_name = new LinearLayout(AdminInventory.this);
+                            item_name.setBackgroundResource(R.drawable.rectangle_extended);
+                            addItemContainer(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            item_name.setVisibility(View.GONE);
+
+                            TextView item_name_input = new TextView(AdminInventory.this);
+                            item_name_input.setText(item_text_input);
+                            addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            //generate new qr for new item
+                            qrGenerate();
+                        }
+                    }
+                });
+
+                enterItemName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                enterItemName.show();
+            }
+        });
 
         fab_category=findViewById(R.id.fab_category);
         fab_category.setOnClickListener(new View.OnClickListener(){
@@ -61,11 +125,27 @@ public class AdminInventory extends AppCompatActivity {
                         category_text_input=category_text.getText().toString();
                         Toast.makeText(AdminInventory.this, ""+category_text_input+" has been added", Toast.LENGTH_LONG).show();
 
-                        TextView category_name = new TextView(AdminInventory.this);
+                        Button category_name = new Button(AdminInventory.this);
                         category_name.setText(category_text_input);
+                        category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                         category_name.setAllCaps(true);
+                        category_name.setGravity(Gravity.CENTER);
+                        category_name.setBackgroundResource(R.drawable.rectangle);
                         category_name.setTextColor(getResources().getColor(android.R.color.black));
                         addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                        category_name.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (item_name.getVisibility()==View.GONE) {
+                                    item_name.setVisibility(View.VISIBLE);
+                                }
+                                else {
+                                    item_name.setVisibility(View.GONE);
+                                }
+
+                            }
+                        });
                     }
                 });
 
@@ -78,58 +158,6 @@ public class AdminInventory extends AppCompatActivity {
                 enterCategoryName.show();
             }
         });
-        fab_item=findViewById(R.id.fab_item);
-        fab_item.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick (View view){
-                AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
-                enterItemName.setTitle("Enter item to add");
-
-                final EditText item_text = new EditText(AdminInventory.this);
-                item_text.setInputType(InputType.TYPE_CLASS_TEXT);
-                enterItemName.setView(item_text);
-
-                enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        int length = item_text.length();
-
-                        if (length==0) {
-                            AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
-                            nullItem.setTitle("Invalid");
-
-                            nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int which) {
-                                    dialogInterface.cancel();
-                                }
-                            });
-                            nullItem.show();
-                        }
-                        else {
-                            item_text_input = item_text.getText().toString();
-
-                            TextView item_name = new TextView(AdminInventory.this);
-                            item_name.setText(item_text_input);
-                            item_name.setTextColor(getResources().getColor(android.R.color.darker_gray));
-                            addItem(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-                            //generate new qr for new item
-                            qrGenerate();
-                        }
-                    }
-                });
-
-                enterItemName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                enterItemName.show();
-            }
-        });
     }
     public void addCategory(TextView category_name, int width, int height) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
@@ -139,13 +167,21 @@ public class AdminInventory extends AppCompatActivity {
         category_name.setLayoutParams(layoutParams);
         layout.addView(category_name);
     }
-    public void addItem(TextView item_name, int width, int height) {
+    public void addItemContainer(LinearLayout item_name, int width, int height) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-        layoutParams.setMargins(100,5, 0,0);
+        layoutParams.setMargins(100,-50, 0,0);
 
 
         item_name.setLayoutParams(layoutParams);
         layout.addView(item_name);
+    }
+    public void addItem(TextView item_name_input, int width, int height) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layoutParams.setMargins(500,30, 0,0);
+
+
+        item_name_input.setLayoutParams(layoutParams);
+        item_name.addView(item_name_input);
     }
 
     //Method that generates QR and show it in a dialog
