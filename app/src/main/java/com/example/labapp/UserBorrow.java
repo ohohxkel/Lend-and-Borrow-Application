@@ -11,12 +11,12 @@ public class UserBorrow {
 
     public boolean returned;
     public Timestamp borrowedDate;
-    public List<String> items;
+    public ArrayList<String> items;
 
 
 
 
-    public UserBorrow(Timestamp borrowedDate, boolean returned, List<String> items) {
+    public UserBorrow(Timestamp borrowedDate, boolean returned, ArrayList<String> items) {
         this.returned = returned;
         this.borrowedDate = borrowedDate;
         this.items = items;
@@ -39,11 +39,11 @@ public class UserBorrow {
         this.borrowedDate = borrowedDate;
     }
 
-    public List<String> getItems() {
+    public ArrayList<String> getItems() {
         return items;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(ArrayList<String> items) {
         this.items = items;
     }
 

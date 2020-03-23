@@ -25,6 +25,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -34,6 +36,8 @@ import com.google.zxing.Result;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -91,6 +95,8 @@ public class StudentScanner extends AppCompatActivity {
             }
         });
 
+        Collections.sort(itemsAdd);
+
     }
 
     @Override
@@ -99,8 +105,7 @@ public class StudentScanner extends AppCompatActivity {
         codeScanner.startPreview();
     }
 
-    //this method let the app gets the items borrowed
-    //directly add and remove items to and from certain fields in the database
+
     public void borrowItems() {
 
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +144,8 @@ public class StudentScanner extends AppCompatActivity {
 
                 }
 
+
+
             }
 
             private void openDialog() {
@@ -146,6 +153,8 @@ public class StudentScanner extends AppCompatActivity {
                 exceedItem.show(getSupportFragmentManager(), "Input Exceeds");
             }
         });
+
+
 
     }
 
@@ -155,10 +164,9 @@ public class StudentScanner extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String userID = mAuth.getCurrentUser().getUid().toString();
 
+
         Query userDocs = usersRef.whereEqualTo("userID", userID);
         userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
-
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
@@ -194,9 +202,9 @@ public class StudentScanner extends AppCompatActivity {
 
                         @Override
                         public void onClick(View v) {
+                            Toast.makeText(StudentScanner.this, "Items are borrowed", Toast.LENGTH_SHORT).show();
 
                             for (int i = 0; i < itemsAdd.size(); i++) {
-                                itemsRef.document("Items").update("tags", FieldValue.arrayRemove(itemsAdd.get(i)));
                                 usersRef.document(currentUserID).collection("Borrow")
                                         .document(transNum + "-" + currentUserID)
                                         .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
@@ -204,10 +212,13 @@ public class StudentScanner extends AppCompatActivity {
                         }
 
                     });
+
+
                 }
             }
         });
 
     }
+
 
 }

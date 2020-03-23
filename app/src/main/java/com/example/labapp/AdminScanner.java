@@ -6,29 +6,51 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.zxing.Result;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class AdminScanner extends AppCompatActivity {
+public class AdminScanner extends AppCompatActivity implements EditDialog.EditDialogListener{
     CodeScanner codeScanner;
     CodeScannerView scannView;
     TextView resultData;
+            //textViewTransaction, textViewStudentNum;
     Button button_admin_save, button_done;
 
     ArrayList<String> itemsAdd = new ArrayList<>();
     String item_values1, item_values2, item_values3, item_values4, item_values5;
+    String num, trans;
+
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference itemsRef = db.collection("Inventory");
+   // DocumentReference docRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-2018-01041-MN-0");
+    //CollectionReference usersRef = db.collection("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +60,17 @@ public class AdminScanner extends AppCompatActivity {
         codeScanner = new CodeScanner(this, scannView);
         resultData = findViewById(R.id.resultsOfQr);
         button_admin_save = findViewById(R.id.button_admin_save);
-        button_done = findViewById(R.id.button_submit);
+        button_done = findViewById(R.id.button_done);
+        //textViewTransaction = findViewById(R.id.transaction);
+        //textViewStudentNum = findViewById(R.id.studentNum);
+
+        //num = (String) textViewStudentNum.getText();
+        //trans = (String) textViewTransaction.getText();
+
 
         borrowItems();
+        returnItems();
+        openDialog();
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -62,16 +92,22 @@ public class AdminScanner extends AppCompatActivity {
             }
         });
 
-        button_done.setOnClickListener(new View.OnClickListener() {
+        //Collections.sort(itemsAdd);
 
-            @Override
-            public void onClick(View v) {
-                for (int i = 0; i < itemsAdd.size(); i++) {
-                    itemsRef.document("Items").update("tags", FieldValue.arrayUnion(itemsAdd.get(i)));
-                }
-            }
 
-        });
+    }
+    public void openDialog() {
+        EditDialog editDialog = new EditDialog();
+        editDialog.show(getSupportFragmentManager(), "edit dialog");
+    }
+
+    @Override
+    public void applyText(String transaction, String studentNum) {
+        //textViewTransaction.setText(transaction);
+        //textViewStudentNum.setText(studentNum);
+        trans = transaction;
+        num = studentNum;
+
     }
 
     @Override
@@ -79,6 +115,7 @@ public class AdminScanner extends AppCompatActivity {
         super.onResume();
         codeScanner.startPreview();
     }
+
 
     public void borrowItems() {
 
@@ -96,11 +133,11 @@ public class AdminScanner extends AppCompatActivity {
                         break;
                     case 2:
                         item_values2 = (String) resultData.getText();
-                        itemsAdd.add(0, item_values2);
+                        itemsAdd.add(1, item_values2);
                         break;
                     case 3:
                         item_values3 = (String) resultData.getText();
-                        itemsAdd.add(0, item_values3);
+                        itemsAdd.add(2, item_values3);
                         break;
                     case 4:
                         item_values4 = (String) resultData.getText();
@@ -108,16 +145,60 @@ public class AdminScanner extends AppCompatActivity {
                         break;
                     case 5:
                         item_values5 = (String) resultData.getText();
-                        itemsAdd.add(3, item_values5);
+                        itemsAdd.add(4, item_values5);
                         break;
                     default:
                 }
-
 
             }
 
         });
 
     }
+
+
+    public void returnItems() {
+
+        //DocumentReference docRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-01041-MN-0");
+        final DocumentReference docRef = db.collection("users").document(num).collection("Borrow").document(trans + "-" + num);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot document = task.getResult();
+
+                    UserBorrow userBorrow = document.toObject(UserBorrow.class);
+                    final ArrayList<String> items = userBorrow.getItems();
+
+                    button_done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (itemsAdd.equals(items)) {
+                                //Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
+
+                                //DocumentReference docuRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-01041-MN-0");
+                                docRef.update("returned", true)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(AdminScanner.this, "Not found!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+
+
 
 }

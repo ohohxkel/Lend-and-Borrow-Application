@@ -8,16 +8,43 @@
 
     <TextView
         android:id="@+id/resultsOfQr"
-        android:layout_width="244dp"
-        android:layout_height="54dp"
+        android:layout_width="245dp"
+        android:layout_height="37dp"
         android:text="Transaction Result"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scanner_view"
-        app:layout_constraintVertical_bias="0.481" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/transaction"
+        android:layout_width="122dp"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.138"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanner_view"
+        app:layout_constraintVertical_bias="0.798" />
+
+    <TextView
+        android:id="@+id/studentNum"
+        android:layout_width="207dp"
+        android:layout_height="40dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.925"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scanner_view"
+        app:layout_constraintVertical_bias="0.797" />
 
     <Button
 
@@ -37,7 +64,7 @@
         app:layout_constraintHorizontal_bias="0.165"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.917" />
+        app:layout_constraintVertical_bias="0.884" />
 
     <Button
         android:id="@+id/button_done"
@@ -53,15 +80,15 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.917" />
+        app:layout_constraintVertical_bias="0.884" />
 
     <com.budiyev.android.codescanner.CodeScannerView
         android:id="@+id/scanner_view"
-        android:layout_width="366dp"
-        android:layout_height="624dp"
+        android:layout_width="373dp"
+        android:layout_height="515dp"
         app:frameAspectRatioHeight="1"
         app:frameAspectRatioWidth="1"
         app:frameColor="@android:color/white"
