@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LogoutConfirmationStudents extends AppCompatActivity {
     Button button_confirm_logout, button_deny_logout;
 
@@ -20,8 +22,10 @@ public class LogoutConfirmationStudents extends AppCompatActivity {
         button_confirm_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(LogoutConfirmationStudents.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
         button_deny_logout = findViewById(R.id.button_deny_logout);

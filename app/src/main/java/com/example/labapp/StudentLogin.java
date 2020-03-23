@@ -73,13 +73,28 @@ public class StudentLogin extends AppCompatActivity implements View.OnClickListe
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             progressDialog.hide();
-                            Toast.makeText(StudentLogin.this, "Login Successfully" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(StudentLogin.this, "Login success" , Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(StudentLogin.this, StudentHome.class);
                             startActivity(intent);
 
                         } else {
+                            progressDialog.hide();
                             String e = ((FirebaseAuthException) task.getException()).getErrorCode();
-                            Toast.makeText(StudentLogin.this, "Login Failed" + e, Toast.LENGTH_SHORT).show();
+                            String errorString = "Please check your email and password";
+
+                                if(e == "ERROR_WRONG_PASSWORD") {
+                                    errorString = "Invalid password";
+                                    editTextPassword.setError(errorString);
+                                    editTextPassword.requestFocus();
+                                }
+                                if(e == "ERROR_WRONG_EMAIL") {
+                                    errorString = "Invalid email";
+                                    editTextEmail.setError(errorString);
+                                    editTextEmail.requestFocus();
+                                }
+
+
+                            Toast.makeText(StudentLogin.this, errorString, Toast.LENGTH_SHORT).show();
                             Log.e("LoginActivity", "Failed Login");
                         }
 

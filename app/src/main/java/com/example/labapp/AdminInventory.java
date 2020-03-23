@@ -1,35 +1,38 @@
 package com.example.labapp;
 
-
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import com.github.clans.fab.FloatingActionButton;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class AdminInventory extends AppCompatActivity {
-    Button button_back, button_load;
-    TextView itemsAvailable;
+    LinearLayout layout;
+    FloatingActionButton fab_category, fab_item;
+    String category_text_input, item_text_input;
+    Dialog qr_generate;
+    ImageView qr_image;
+    Button done;
+    TextView new_item;
 
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    CollectionReference itemsRef = db.collection("Inventory");
 
 
     @Override
@@ -37,57 +40,151 @@ public class AdminInventory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_inventory);
 
-        itemsAvailable = (TextView) findViewById(R.id.itemsAvailable);
+        layout=findViewById(R.id.layout);
 
-        displayItems();
 
-        button_back = findViewById(R.id.button_back);
-        button_back.setOnClickListener(new View.OnClickListener() {
+        fab_category=findViewById(R.id.fab_category);
+        fab_category.setOnClickListener(new View.OnClickListener(){
+
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminInventory.this, AdminHome.class);
-                startActivity(intent);
-            }
-        });
+            public void onClick (View view){
+                AlertDialog.Builder enterCategoryName = new AlertDialog.Builder(AdminInventory.this);
+                enterCategoryName.setTitle("Enter item category");
 
+                final EditText category_text = new EditText(AdminInventory.this);
+                category_text.setInputType(InputType.TYPE_CLASS_TEXT);
+                enterCategoryName.setView(category_text);
 
-        button_load = findViewById(R.id.button_load);
-        button_load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AdminInventory.this, AdminInventory.class);
-                startActivity(intent);
-            }
-        });
+                enterCategoryName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        category_text_input=category_text.getText().toString();
+                        Toast.makeText(AdminInventory.this, ""+category_text_input+" has been added", Toast.LENGTH_LONG).show();
 
-    }
-
-
-    //display items available from the Inventory (firestore)
-    public void displayItems() {
-        itemsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                String data = "";
-
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    User user = documentSnapshot.toObject(User.class);
-                    for (String tag : user.getTags()) {
-                        data += "\n-" + tag;
+                        TextView category_name = new TextView(AdminInventory.this);
+                        category_name.setText(category_text_input);
+                        category_name.setAllCaps(true);
+                        category_name.setTextColor(getResources().getColor(android.R.color.black));
+                        addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     }
-                }
-                itemsAvailable.setText(data);
+                });
+
+                enterCategoryName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                enterCategoryName.show();
+            }
+        });
+        fab_item=findViewById(R.id.fab_item);
+        fab_item.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick (View view){
+                AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
+                enterItemName.setTitle("Enter item to add");
+
+                final EditText item_text = new EditText(AdminInventory.this);
+                item_text.setInputType(InputType.TYPE_CLASS_TEXT);
+                enterItemName.setView(item_text);
+
+                enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int length = item_text.length();
+
+                        if (length==0) {
+                            AlertDialog.Builder nullItem = new AlertDialog.Builder(AdminInventory.this);
+                            nullItem.setTitle("Invalid");
+
+                            nullItem.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    dialogInterface.cancel();
+                                }
+                            });
+                            nullItem.show();
+                        }
+                        else {
+                            item_text_input = item_text.getText().toString();
+
+                            TextView item_name = new TextView(AdminInventory.this);
+                            item_name.setText(item_text_input);
+                            item_name.setTextColor(getResources().getColor(android.R.color.darker_gray));
+                            addItem(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                            //generate new qr for new item
+                            qrGenerate();
+                        }
+                    }
+                });
+
+                enterItemName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                enterItemName.show();
             }
         });
     }
+    public void addCategory(TextView category_name, int width, int height) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layoutParams.setMargins(100,5, 0,0);
+
+
+        category_name.setLayoutParams(layoutParams);
+        layout.addView(category_name);
+    }
+    public void addItem(TextView item_name, int width, int height) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
+        layoutParams.setMargins(100,5, 0,0);
+
+
+        item_name.setLayoutParams(layoutParams);
+        layout.addView(item_name);
+    }
+
+    //Method that generates QR and show it in a dialog
+    public void qrGenerate() {
+
+        qr_generate = new Dialog(AdminInventory.this);
+        qr_generate.setContentView(R.layout.customdialog);
+        qr_generate.setTitle("Generated QR Code");
+
+        done = (Button)qr_generate.findViewById(R.id.done);
+        new_item = (TextView)qr_generate.findViewById(R.id.new_item);
+        qr_image = (ImageView)qr_generate.findViewById(R.id.qrcode_place_holder);
+
+        new_item.setText(item_text_input);
+        String text = new_item.getText().toString();
+
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(text, BarcodeFormat.QR_CODE, 500, 500);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            qr_image.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
+
+        done.setEnabled(true);
+
+        done.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                qr_generate.cancel();
+                Toast.makeText(AdminInventory.this, "" + item_text_input + " has been added", Toast.LENGTH_LONG).show();
+            }
+        });
+        qr_generate.show();
+
+    }
+
+
 }
-
-
-
-
-
-
-
-
-
-
