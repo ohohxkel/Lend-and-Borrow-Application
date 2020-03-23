@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.animation.Animation;
@@ -40,6 +41,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.opencensus.tags.Tag;
+
 public class AdminInventory extends AppCompatActivity {
     LinearLayout layout, item_name;
     FloatingActionButton fab_category, fab_item;
@@ -50,6 +53,8 @@ public class AdminInventory extends AppCompatActivity {
     TextView new_item;
 
     FirebaseFirestore fStore;
+
+    public static final String TAG="AdminInventory";
 
 
 
@@ -66,18 +71,39 @@ public class AdminInventory extends AppCompatActivity {
             @Override
             public void onClick (View view){
 
-                AlertDialog.Builder enterExistingCategory = new AlertDialog.Builder(AdminInventory.this);
-                enterExistingCategory.setTitle("Enter item to add");
+                AlertDialog.Builder enterCategoryName = new AlertDialog.Builder(AdminInventory.this);
+                enterCategoryName.setTitle("Enter category name");
 
-                final EditText existing_category = new EditText(AdminInventory.this);
-                existing_category.setInputType(InputType.TYPE_CLASS_TEXT);
-                enterExistingCategory.setView(existing_category);
+                final EditText category_text = new EditText(AdminInventory.this);
+                category_text.setInputType(InputType.TYPE_CLASS_TEXT);
+                enterCategoryName.setView(category_text);
 
-                enterExistingCategory.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                enterCategoryName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        category_text_input=category_text.getText().toString();
 
-                        String existing_category_input = existing_category.getText().toString();
+                        Button category_name = new Button(AdminInventory.this);
+                        category_name.setText(category_text_input);
+                        category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                        category_name.setAllCaps(true);
+                        category_name.setGravity(Gravity.CENTER);
+                        category_name.setBackgroundResource(R.drawable.rectangle);
+                        category_name.setTextColor(getResources().getColor(android.R.color.black));
+                        addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+                        category_name.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (item_name.getVisibility()==View.GONE) {
+                                    item_name.setVisibility(View.VISIBLE);
+                                }
+                                else {
+                                    item_name.setVisibility(View.GONE);
+                                }
+                            }
+                        });
 
                         AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
                         enterItemName.setTitle("Enter item to add");
@@ -85,9 +111,6 @@ public class AdminInventory extends AppCompatActivity {
                         final EditText item_text = new EditText(AdminInventory.this);
                         item_text.setInputType(InputType.TYPE_CLASS_TEXT);
                         enterItemName.setView(item_text);
-
-                        //!!!
-                        addItemOnDatabase(item_text_input, existing_category_input);
 
                         enterItemName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                             @Override
@@ -117,10 +140,23 @@ public class AdminInventory extends AppCompatActivity {
 
                                     TextView item_name_input = new TextView(AdminInventory.this);
                                     item_name_input.setText(item_text_input);
+
                                     addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                                     //generate new qr for new item
                                     qrGenerate();
+
+
+
+                                    if (item_text_input != null){
+                                        Log.d(TAG, item_text_input);
+                                        if (category_text_input != null){
+                                            Log.d(TAG, category_text_input);
+
+
+                                    //!!!
+                                    addItemOnDatabase(item_text_input, category_text_input);}}
+                                    else { Log.d(TAG, "NULL ITEMTEXT");}
 
                                 }
                             }
@@ -136,57 +172,6 @@ public class AdminInventory extends AppCompatActivity {
 
                     }
                 });
-                enterExistingCategory.show();
-
-            }
-        });
-
-        fab_category=findViewById(R.id.fab_category);
-        fab_category.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick (View view){
-                AlertDialog.Builder enterCategoryName = new AlertDialog.Builder(AdminInventory.this);
-                enterCategoryName.setTitle("Enter item category");
-
-                final EditText category_text = new EditText(AdminInventory.this);
-                category_text.setInputType(InputType.TYPE_CLASS_TEXT);
-                enterCategoryName.setView(category_text);
-                
-                //!!!
-                addCategoryOnDatabase(category_text_input);
-
-                enterCategoryName.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        category_text_input=category_text.getText().toString();
-                        Toast.makeText(AdminInventory.this, ""+category_text_input+" has been added", Toast.LENGTH_LONG).show();
-
-                        Button category_name = new Button(AdminInventory.this);
-                        category_name.setText(category_text_input);
-                        category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                        category_name.setAllCaps(true);
-                        category_name.setGravity(Gravity.CENTER);
-                        category_name.setBackgroundResource(R.drawable.rectangle);
-                        category_name.setTextColor(getResources().getColor(android.R.color.black));
-                        addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
-                        category_name.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (item_name.getVisibility()==View.GONE) {
-                                    item_name.setVisibility(View.VISIBLE);
-                                }
-                                else {
-                                    item_name.setVisibility(View.GONE);
-                                }
-
-                            }
-                        });
-
-                    }
-                });
 
                 enterCategoryName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -194,9 +179,12 @@ public class AdminInventory extends AppCompatActivity {
                         dialogInterface.cancel();
                     }
                 });
+
                 enterCategoryName.show();
+
             }
         });
+
     }
     public void addCategory(TextView category_name, int width, int height) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
