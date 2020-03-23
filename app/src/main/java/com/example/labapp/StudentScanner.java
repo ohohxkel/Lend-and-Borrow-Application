@@ -27,8 +27,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -39,7 +37,6 @@ import com.google.zxing.Result;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +89,7 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
         });
 
         borrowItems();
-       // submitItems();
+        // submitItems();
         button_submit.setOnClickListener(this);
 
         scannView.setOnClickListener(new View.OnClickListener() {
@@ -102,8 +99,6 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        Collections.sort(itemsAdd);
-
     }
 
     @Override
@@ -112,7 +107,8 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
         codeScanner.startPreview();
     }
 
-
+    //this method let the app gets the items borrowed
+    //directly add and remove items to and from certain fields in the database
     public void borrowItems() {
 
         button_save.setOnClickListener(new View.OnClickListener() {
@@ -151,8 +147,6 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
 
                 }
 
-
-
             }
 
             private void openDialog() {
@@ -161,7 +155,7 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-
+        Collections.sort(itemsAdd);
 
     }
 
@@ -172,14 +166,6 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
             progressDialog.setMessage("Loading...");
             progressDialog.show();
 
-
-
-        Query userDocs = usersRef.whereEqualTo("userID", userID);
-        userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-
             if (itemsAdd == null) {
                 Toast.makeText(StudentScanner.this, "Scan items please.", Toast.LENGTH_SHORT).show();
             }
@@ -189,7 +175,6 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
 
             Query userDocs = usersRef.whereEqualTo("userID", userID);
             userDocs.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-
 
 
                 @Override
@@ -220,20 +205,9 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
                         DocumentReference documentReference = db.collection("users").document(currentUserID)
                                 .collection("Borrow").document(transNum + "-" + currentUserID);
 
-
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(StudentScanner.this, "Items are borrowed", Toast.LENGTH_SHORT).show();
-
-                            for (int i = 0; i < itemsAdd.size(); i++) {
-                                usersRef.document(currentUserID).collection("Borrow")
-                                        .document(transNum + "-" + currentUserID)
-                                        .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
-
                         documentReference.set(trans).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-
 
                             }
                         });
@@ -247,16 +221,11 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
                                     .update("items", FieldValue.arrayUnion(itemsAdd.get(i)));
                         }
 
-
-                    });
-
-
                     }
 
                     // redirecting to receipt if successful
                     Intent intent = new Intent(StudentScanner.this, StudentReceipt.class);
                     startActivity(intent);
-
 
                 }
             });
@@ -264,10 +233,6 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
-
-
-}
 
     @Override
     public void onClick(View v) {
@@ -279,4 +244,3 @@ public class StudentScanner extends AppCompatActivity implements View.OnClickLis
 
 
 }
-

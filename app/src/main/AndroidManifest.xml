@@ -9,33 +9,17 @@
         android:roundIcon="@mipmap/lab_icon_round"
         android:supportsRtl="true"
 
-
-
         android:theme="@style/AppTheme" >
 
         <activity android:name=".StudentScanner"/>
-
-        android:theme="@style/AppTheme">
-        <activity android:name=".AdminTransaction"></activity>
-        <activity android:name=".StudentScanner"></activity>
-
-
-        android:theme="@style/AppTheme" >
-
-        <activity android:name=".StudentScanner"/>
-
-
-        android:theme="@style/AppTheme">
-        <activity android:name=".AdminInventory"></activity>
+        <activity android:name=".AdminTransaction"/>
+        <activity android:name=".AdminInventory"/>
         <activity android:name=".StudentHelp" />
         <activity android:name=".StudentReceipt" />
-        <activity android:name=".StudentScanner" />
-
         <activity android:name=".AdminScanner" />
         <activity android:name=".AdminGenerate" />
         <activity android:name=".LogoutConfirmationStudents" />
         <activity android:name=".LogoutConfirmation" />
-        <activity android:name=".AdminTransaction" />
         <activity android:name=".AdminInventoryOld" />
         <activity android:name=".StudentHome" />
         <activity android:name=".StudentLogin" />

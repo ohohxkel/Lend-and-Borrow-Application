@@ -39,18 +39,14 @@ import java.util.Map;
 public class AdminScanner extends AppCompatActivity implements EditDialog.EditDialogListener{
     CodeScanner codeScanner;
     CodeScannerView scannView;
-    TextView resultData;
-            //textViewTransaction, textViewStudentNum;
+    TextView resultData, textViewTransaction, textViewStudentNum;
     Button button_admin_save, button_done;
 
     ArrayList<String> itemsAdd = new ArrayList<>();
     String item_values1, item_values2, item_values3, item_values4, item_values5;
-    String num, trans;
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-   // DocumentReference docRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-2018-01041-MN-0");
-    //CollectionReference usersRef = db.collection("users");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,15 +57,15 @@ public class AdminScanner extends AppCompatActivity implements EditDialog.EditDi
         resultData = findViewById(R.id.resultsOfQr);
         button_admin_save = findViewById(R.id.button_admin_save);
         button_done = findViewById(R.id.button_done);
-        //textViewTransaction = findViewById(R.id.transaction);
-        //textViewStudentNum = findViewById(R.id.studentNum);
+        textViewTransaction = findViewById(R.id.transaction);
+        textViewStudentNum = findViewById(R.id.studentNum);
 
         //num = (String) textViewStudentNum.getText();
         //trans = (String) textViewTransaction.getText();
 
 
         borrowItems();
-        returnItems();
+        //returnItems();
         openDialog();
 
         codeScanner.setDecodeCallback(new DecodeCallback() {
@@ -103,11 +99,47 @@ public class AdminScanner extends AppCompatActivity implements EditDialog.EditDi
 
     @Override
     public void applyText(String transaction, String studentNum) {
-        //textViewTransaction.setText(transaction);
-        //textViewStudentNum.setText(studentNum);
-        trans = transaction;
-        num = studentNum;
+        textViewTransaction.setText(transaction);
+        textViewStudentNum.setText(studentNum);
 
+        String num = textViewStudentNum.getText().toString();
+        String trans = textViewTransaction.getText().toString();
+
+        final DocumentReference docRef = db.collection("users").document(num).collection("Borrow")
+                .document(trans + "-" + num);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    DocumentSnapshot document = task.getResult();
+
+                    UserBorrow userBorrow = document.toObject(UserBorrow.class);
+                    final ArrayList<String> items = userBorrow.getItems();
+
+                    button_done.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (itemsAdd.equals(items)) {
+
+                                docRef.update("returned", true)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            }
+                        }
+                    });
+
+
+                } else {
+                    Toast.makeText(AdminScanner.this, "Not found!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -154,51 +186,8 @@ public class AdminScanner extends AppCompatActivity implements EditDialog.EditDi
 
         });
 
+        Collections.sort(itemsAdd);
+
     }
-
-
-    public void returnItems() {
-
-        //DocumentReference docRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-01041-MN-0");
-        final DocumentReference docRef = db.collection("users").document(num).collection("Borrow").document(trans + "-" + num);
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-
-                    DocumentSnapshot document = task.getResult();
-
-                    UserBorrow userBorrow = document.toObject(UserBorrow.class);
-                    final ArrayList<String> items = userBorrow.getItems();
-
-                    button_done.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (itemsAdd.equals(items)) {
-                                //Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
-
-                                //DocumentReference docuRef = db.collection("users").document("2018-01041-MN-0").collection("Borrow").document("10-01041-MN-0");
-                                docRef.update("returned", true)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    });
-
-
-                } else {
-                    Toast.makeText(AdminScanner.this, "Not found!", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-
-
 
 }
