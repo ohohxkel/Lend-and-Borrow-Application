@@ -1,6 +1,5 @@
 package com.example.labapp;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,13 +12,10 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +24,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.BarcodeFormat;
@@ -35,13 +32,12 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.journeyapps.barcodescanner.camera.CenterCropStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import io.opencensus.tags.Tag;
 
 public class AdminInventory extends AppCompatActivity {
     LinearLayout layout, item_name;
@@ -62,6 +58,8 @@ public class AdminInventory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_inventory);
+
+        this.fStore = FirebaseFirestore.getInstance();
 
         layout=findViewById(R.id.layout);
 
@@ -152,11 +150,14 @@ public class AdminInventory extends AppCompatActivity {
                                         Log.d(TAG, item_text_input);
                                         if (category_text_input != null){
                                             Log.d(TAG, category_text_input);
-
-
-                                    //!!!
-                                    addItemOnDatabase(item_text_input, category_text_input);}}
-                                    else { Log.d(TAG, "NULL ITEMTEXT");}
+                                            //!!!
+                                            addItemOnDatabase(item_text_input, category_text_input);
+                                        }
+                                        else { Log.d(TAG, "NULL CATEGORYTEXT");}
+                                    }
+                                    else { 
+                                        Log.d(TAG, "NULL ITEMTEXT");
+                                    }
 
                                 }
                             }
@@ -296,6 +297,37 @@ public class AdminInventory extends AppCompatActivity {
 
                     }
                 });
+    }
+
+
+    public void pullDataFromDatabase (){
+        final DocumentReference docRef= fStore.collection("Inventory").document("Items");
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot != null) {
+                    Map<String, Object> mapDoc = documentSnapshot.getData();
+                    List<String> docList = new ArrayList<>();
+
+
+                    for(Map.Entry<String, Object> entry : mapDoc.entrySet()){
+                        docList.add(entry.getKey().toString());
+                    }
+
+                    for (String category: docList){
+                        //calls method for producing category boxes
+                        ArrayList<String> list = (ArrayList<String>) documentSnapshot.get(category);
+                        Log.d(TAG, "key " + category);
+
+                        for (String items: list){
+                            //calls method for assigning text on items textViews
+                            Log.d(TAG,"items " + items);
+                        }
+                    }
+                }
+            }
+        });
     }
 
 
