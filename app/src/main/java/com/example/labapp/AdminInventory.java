@@ -41,7 +41,7 @@ import java.util.Map;
 
 public class AdminInventory extends AppCompatActivity {
     LinearLayout layout, item_name;
-    FloatingActionButton fab_category, fab_item;
+    FloatingActionButton fab_item;
     String category_text_input, item_text_input;
     Dialog qr_generate;
     ImageView qr_image;
@@ -81,27 +81,7 @@ public class AdminInventory extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         category_text_input=category_text.getText().toString();
 
-                        Button category_name = new Button(AdminInventory.this);
-                        category_name.setText(category_text_input);
-                        category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                        category_name.setAllCaps(true);
-                        category_name.setGravity(Gravity.CENTER);
-                        category_name.setBackgroundResource(R.drawable.rectangle);
-                        category_name.setTextColor(getResources().getColor(android.R.color.black));
-                        addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-
-                        category_name.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if (item_name.getVisibility()==View.GONE) {
-                                    item_name.setVisibility(View.VISIBLE);
-                                }
-                                else {
-                                    item_name.setVisibility(View.GONE);
-                                }
-                            }
-                        });
 
                         AlertDialog.Builder enterItemName = new AlertDialog.Builder(AdminInventory.this);
                         enterItemName.setTitle("Enter item to add");
@@ -131,15 +111,8 @@ public class AdminInventory extends AppCompatActivity {
                                 else {
                                     item_text_input = item_text.getText().toString();
 
-                                    item_name = new LinearLayout(AdminInventory.this);
-                                    item_name.setBackgroundResource(R.drawable.rectangle_extended);
-                                    addItemContainer(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                                    item_name.setVisibility(View.GONE);
 
-                                    TextView item_name_input = new TextView(AdminInventory.this);
-                                    item_name_input.setText(item_text_input);
 
-                                    addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
                                     //generate new qr for new item
                                     qrGenerate();
@@ -186,6 +159,8 @@ public class AdminInventory extends AppCompatActivity {
             }
         });
 
+        pullDataFromDatabase();
+
     }
     public void addCategory(TextView category_name, int width, int height) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
@@ -205,7 +180,7 @@ public class AdminInventory extends AppCompatActivity {
     }
     public void addItem(TextView item_name_input, int width, int height) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, height);
-        layoutParams.setMargins(500,30, 0,0);
+        layoutParams.setMargins(350,30, 0,0);
 
 
         item_name_input.setLayoutParams(layoutParams);
@@ -299,6 +274,33 @@ public class AdminInventory extends AppCompatActivity {
                 });
     }
 
+    public void addItemTextViews (){
+
+        item_name = new LinearLayout(AdminInventory.this);
+        item_name.setBackgroundResource(R.drawable.rectangle);
+        addItemContainer(item_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        TextView item_name_input = new TextView(AdminInventory.this);
+        item_name_input.setText(item_text_input);
+
+        addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+    }
+
+    public void addCategoryTextViews (){
+        Button category_name = new Button(AdminInventory.this);
+        category_name.setText(category_text_input);
+        category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        category_name.setAllCaps(true);
+        category_name.setGravity(Gravity.CENTER);
+        category_name.setBackgroundResource(R.drawable.rectangle);
+        category_name.setTextColor(getResources().getColor(android.R.color.black));
+        addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    }
+
 
     public void pullDataFromDatabase (){
         final DocumentReference docRef= fStore.collection("Inventory").document("Items");
@@ -317,12 +319,20 @@ public class AdminInventory extends AppCompatActivity {
 
                     for (String category: docList){
                         //calls method for producing category boxes
+
                         ArrayList<String> list = (ArrayList<String>) documentSnapshot.get(category);
                         Log.d(TAG, "key " + category);
 
+                        addCategoryTextViews();
+                        category_text_input = category;
+
                         for (String items: list){
                             //calls method for assigning text on items textViews
+
                             Log.d(TAG,"items " + items);
+
+                            addItemTextViews();
+                            item_text_input = items;
                         }
                     }
                 }
