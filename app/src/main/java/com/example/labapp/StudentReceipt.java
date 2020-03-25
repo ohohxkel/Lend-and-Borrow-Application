@@ -29,7 +29,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class StudentReceipt extends AppCompatActivity {
@@ -148,9 +150,15 @@ public class StudentReceipt extends AppCompatActivity {
 
                                                     String transactionNumber = documents.getId();
                                                     Timestamp date = userBorrow.getBorrowedDate();
-                                                    String tDate = date.toDate().toString();
+                                                    Date jDate = date.toDate();
+                                                    SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM d, yyyy 'at' h:m a");
+                                                    String tDate = dateFormat.format(jDate).toString();
+
                                                     List<String> items = userBorrow.getItems();
                                                     Log.d(TAG, items.toString());
+
+                                                    Log.i(TAG, dateFormat.format(jDate));
+
                                                     for (String itemss : items) {
 
 
