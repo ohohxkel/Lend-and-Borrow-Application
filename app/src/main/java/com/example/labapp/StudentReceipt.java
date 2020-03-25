@@ -116,66 +116,74 @@ public class StudentReceipt extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                User user = document.toObject(User.class);
-                                mUsers.add(user);
+                            if (task.getResult() != null) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    User user = document.toObject(User.class);
+                                    mUsers.add(user);
 
-                                String email = user.getEmail();
-                                String name = user.getName();
-                                String yearAndSection = user.getYearAndSection();
-                                String studentNumberString = user.getStudentNumber();
-                                Toast.makeText(StudentReceipt.this, "Successful loading" + name, Toast.LENGTH_SHORT);
-
-
-                                textViewName.setText(name);
-                                textViewYearAndSection.setText("BSCOE " + yearAndSection);
-                                textViewStudentNumber.setText(studentNumberString);
-                            }
-                            String studentNumber = textViewStudentNumber.getText().toString();
-                            DocumentReference docRef = fStore.collection("users").document(studentNumber);
-                            Query usersss = docRef.collection("Borrow").whereEqualTo("returned", false)
-                                    .orderBy("borrowedDate", Query.Direction.ASCENDING);
-
-                            usersss.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot documents : task.getResult()) {
-                                            UserBorrow userBorrow = documents.toObject(UserBorrow.class);
-                                            mTransactions.add(userBorrow);
-
-                                            String transactionNumber = documents.getId();
-                                            Timestamp date = userBorrow.getBorrowedDate();
-                                            String tDate = date.toDate().toString();
-                                            List<String> items = userBorrow.getItems();
-                                            Log.d(TAG, items.toString());
-                                            for (String itemss : items) {
+                                    String email = user.getEmail();
+                                    String name = user.getName();
+                                    String yearAndSection = user.getYearAndSection();
+                                    String studentNumberString = user.getStudentNumber();
+                                    Toast.makeText(StudentReceipt.this, "Successful loading" + name, Toast.LENGTH_SHORT);
 
 
-                                                layout = findViewById(R.id.layout);
+                                    textViewName.setText(name);
+                                    textViewYearAndSection.setText("BSCOE " + yearAndSection);
+                                    textViewStudentNumber.setText(studentNumberString);
+                                }
+                                String studentNumber = textViewStudentNumber.getText().toString();
+                                DocumentReference docRef = fStore.collection("users").document(studentNumber);
+                                Query usersss = docRef.collection("Borrow").whereEqualTo("returned", false)
+                                        .orderBy("borrowedDate", Query.Direction.ASCENDING);
 
-                                                TextView returned_item = new TextView(StudentReceipt.this);
-                                                //put item variable here
-                                                returned_item.setText(itemss);
+                                usersss.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            if (task.getResult() != null) {
+                                                for (QueryDocumentSnapshot documents : task.getResult()) {
+                                                    UserBorrow userBorrow = documents.toObject(UserBorrow.class);
+                                                    mTransactions.add(userBorrow);
 
-                                                addItem(returned_item, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                                                    String transactionNumber = documents.getId();
+                                                    Timestamp date = userBorrow.getBorrowedDate();
+                                                    String tDate = date.toDate().toString();
+                                                    List<String> items = userBorrow.getItems();
+                                                    Log.d(TAG, items.toString());
+                                                    for (String itemss : items) {
 
+
+                                                        layout = findViewById(R.id.layout);
+
+                                                        TextView returned_item = new TextView(StudentReceipt.this);
+                                                        //put item variable here
+                                                        returned_item.setText(itemss);
+
+                                                        addItem(returned_item, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+                                                    }
+
+                                                    textViewTransactionNumber.setText(transactionNumber);
+                                                    textViewDate.setText(tDate);
+
+
+                                                }
                                             }
-
-                                            textViewTransactionNumber.setText(transactionNumber);
-                                            textViewDate.setText(tDate);
-
-
                                         }
                                     }
-                                }
-                            });
 
-                            progressDialog.hide();
+                                });
+
+                                progressDialog.hide();
+                            }
+                            if (task.getResult() == null){
+                                //display a dialog saying that he has no pending transactions, or you have already returned all the items
+                                // just to overlap or cover the blank spaces, also just put a clickable choice or option to go back to homepage
+                            }
                         }
                     }
                 });
-
     }
 
     public void addItem(TextView returned_item, int width, int height) {
