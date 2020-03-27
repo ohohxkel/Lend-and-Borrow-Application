@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.net.LinkAddress;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -32,6 +33,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -238,7 +241,7 @@ public class AdminInventory extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(AdminInventory.this,"Successful", Toast.LENGTH_LONG);
+                        Toast.makeText(AdminInventory.this,"Added successfully", Toast.LENGTH_LONG);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -274,7 +277,10 @@ public class AdminInventory extends AppCompatActivity {
                 });
     }
 
-    public void addItemTextViews (){
+    public void addItemTextViews (String itemText, String categoryText){
+        String categoryTextt = (String) categoryText;
+
+        String item_text_input = (String) itemText;
 
         item_name = new LinearLayout(AdminInventory.this);
         item_name.setBackgroundResource(R.drawable.rectangle);
@@ -286,11 +292,13 @@ public class AdminInventory extends AppCompatActivity {
 
         addItem(item_name_input, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-
     }
 
-    public void addCategoryTextViews (){
-        Button category_name = new Button(AdminInventory.this);
+    public void addCategoryTextViews (final String categoryText, ArrayList<String> listItems){
+        final ArrayList<String> itemsList = (ArrayList<String>) listItems;
+        final String category_text_input = (String) categoryText;
+
+        final Button category_name = new Button(AdminInventory.this);
         category_name.setText(category_text_input);
         category_name.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         category_name.setAllCaps(true);
@@ -298,6 +306,13 @@ public class AdminInventory extends AppCompatActivity {
         category_name.setBackgroundResource(R.drawable.rectangle);
         category_name.setTextColor(getResources().getColor(android.R.color.black));
         addCategory(category_name, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        category_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //checker if what button is being clicked, look at logcat euge while running on phone
+
+            }
+        });
 
     }
 
@@ -323,21 +338,31 @@ public class AdminInventory extends AppCompatActivity {
                         ArrayList<String> list = (ArrayList<String>) documentSnapshot.get(category);
                         Log.d(TAG, "key " + category);
 
-                        addCategoryTextViews();
-                        category_text_input = category;
+
+                        addCategoryTextViews(category, list);
+
 
                         for (String items: list){
                             //calls method for assigning text on items textViews
 
                             Log.d(TAG,"items " + items);
 
-                            addItemTextViews();
-                            item_text_input = items;
+                            addItemTextViews(items, category);
                         }
                     }
                 }
+                if( documentSnapshot == null){
+                    Toast.makeText(AdminInventory.this,"You have no existing items, add some by clicking the add button", Toast.LENGTH_LONG);
+                }
             }
-        });
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(AdminInventory.this,"You have no existing items, add some by clicking the add button", Toast.LENGTH_LONG);
+                        Log.e(TAG, "ERROR:" + e);
+                    }
+                });
     }
 
 
