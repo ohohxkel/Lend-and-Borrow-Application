@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:largeHeap="true"
 
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
 
-        <activity android:name=".StudentScanner" />
-        <activity android:name=".AdminTransaction" />
-        <activity android:name=".AdminInventory" />
+        <activity android:name=".StudentScanner"/>
+        <activity android:name=".AdminTransaction"/>
+        <activity android:name=".AdminInventory"/>
         <activity android:name=".StudentHelp" />
         <activity android:name=".StudentReceipt" />
         <activity android:name=".AdminScanner" />
