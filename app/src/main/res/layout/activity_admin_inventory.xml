@@ -90,17 +90,6 @@
         fab:menu_shadowYOffset="4dp"
         fab:menu_showShadow="true">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fab_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/fab_add"
-            fab:fab_colorNormal="@color/colorDarkGray"
-            fab:fab_colorPressed="@color/colorLightGray"
-            fab:fab_colorRipple="@color/colorDarkGray"
-            fab:fab_label="Category"
-            fab:fab_size="mini" />
-
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_item"
