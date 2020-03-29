@@ -2,19 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.labapp">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/lab_icon_round"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/lab_icon_round"
         android:supportsRtl="true"
-        android:largeHeap="true"
-
-        android:theme="@style/AppTheme" >
-
-        <activity android:name=".StudentScanner"/>
-        <activity android:name=".AdminTransaction"/>
-        <activity android:name=".AdminInventory"/>
+        android:theme="@style/AppTheme">
+        <activity android:name=".PendingTransaction"></activity>
+        <activity android:name=".StudentScanner" />
+        <activity android:name=".AdminTransaction" />
+        <activity android:name=".AdminInventory" />
         <activity android:name=".StudentHelp" />
         <activity android:name=".StudentReceipt" />
         <activity android:name=".AdminScanner" />
@@ -43,10 +47,5 @@
         </activity>
         <activity android:name=".MainActivity" />
     </application>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
 
 </manifest>

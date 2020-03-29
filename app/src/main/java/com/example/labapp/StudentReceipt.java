@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ import java.util.Date;
 import java.util.List;
 
 public class StudentReceipt extends AppCompatActivity {
-    Button button_back, button_sample;
+    Button button_back, button_sample, button_home;
     LinearLayout layout;
 
     TextView textViewTransactionNumber, textViewDate, textViewName, textViewYearAndSection, textViewStudentNumber;
@@ -46,6 +47,7 @@ public class StudentReceipt extends AppCompatActivity {
     public ArrayList<UserBorrow> mTransactions = new ArrayList<>();
 
     private ProgressDialog progressDialog;
+    Dialog pendingTransaction;
 
     public static final String TAG = "StudentReceipt";
 
@@ -72,6 +74,7 @@ public class StudentReceipt extends AppCompatActivity {
 
 
         progressDialog = new ProgressDialog(this);
+
 
 
         // just to see if its duplicating
@@ -186,8 +189,10 @@ public class StudentReceipt extends AppCompatActivity {
                                 progressDialog.hide();
                             }
                             if (task.getResult() == null){
-                                //display a dialog saying that he has no pending transactions, or you have already returned all the items
+
+                                showPendingTransaction();//display a dialog saying that he has no pending transactions, or you have already returned all the items
                                 // just to overlap or cover the blank spaces, also just put a clickable choice or option to go back to homepage
+
                             }
                         }
                     }
@@ -201,6 +206,21 @@ public class StudentReceipt extends AppCompatActivity {
 
         returned_item.setLayoutParams(layoutParams);
         layout.addView(returned_item);
+    }
+
+    public void showPendingTransaction()
+    {
+        pendingTransaction = new Dialog(StudentReceipt.this);
+        pendingTransaction.setContentView(R.layout.activity_pending_transaction);
+
+        button_home = (Button)pendingTransaction.findViewById(R.id.button_home);
+        button_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StudentReceipt.this,StudentHome.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
