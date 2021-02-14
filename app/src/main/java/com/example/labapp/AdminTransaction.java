@@ -43,7 +43,6 @@ public class AdminTransaction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_transaction);
 
-        add_button = findViewById(R.id.add_button);
         layout = findViewById(R.id.layout);
         fStore = FirebaseFirestore.getInstance();
 

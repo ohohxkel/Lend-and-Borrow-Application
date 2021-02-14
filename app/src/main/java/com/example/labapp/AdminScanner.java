@@ -127,12 +127,13 @@ public class AdminScanner extends AppCompatActivity implements EditDialog.EditDi
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
-                                                Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(AdminScanner.this, "Items are returned", Toast.LENGTH_LONG).show();
                                             }
                                         });
                             }
                         }
                     });
+
 
 
                 } else {
